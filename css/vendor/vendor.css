@@ -1,0 +1,5 @@
+.vendor-scroll  {
+	display:block;
+	max-height: 425px;
+	overflow-y:scroll;
+}

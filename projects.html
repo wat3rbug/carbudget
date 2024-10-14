@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charsset="utf-8">
+	<title>Car Budgets</title>
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/font-awesome-4.7.0/css/font-awesome.min.css">
+	<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
+	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico" /> 
+	<link rel="icon" type="image/x-icon" href="favicon.ico" />
+</head>
+<body>
+	<script src="jquery-3.3.1.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
+	
+	<script src="js/projects/projects.js"></script>
+	<script src="js/projects/tags.js"></script>
+	<script src="js/login.js"></script>
+	<script src="js/nav.js"></script>
+	<script src="js/dateFunctions.js"></script>
+	<div class="col-sm-12">
+		<div class="jumbotron danger">
+			<h1 text="center">Car Budgets</h1>Just how much do I spend getting dirty
+		</div>
+	</div>
+	<div id="topMenu">
+		<div class="col-lg-12">
+			<div class="row">
+				<div class="col-lg-9" role="navigation">
+					<ul class="nav nav-tabs" role="tablist">
+						<li class="nav-item">
+							<a class="nav-link" id="car-tab" data-toggle="tab" role="tab" aria-controls="cars" href="cars.html"><i class="fa fa-car" aria-hidden="true"></i>&nbsp;Cars</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link active" id="project-tab" data-toggle="tab" role="tab" aria-controls="project" href="projects.html"><span class="glyphicon glyphicon-book"></span>&nbsp;Projects</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" id="task-tab" data-toggle="tab" role="tab" aria-controls="task" href="tasks.html"><span class="glyphicon glyphicon-tasks"></span>&nbsp;Tasks</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" id="task-tab" data-toggle="tab" role="tab" aria-controls="vendors" href="vendors.html"><span class="glyphicon glyphicon-globe"></span>&nbsp;Vendors</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" id="task-tab" data-toggle="tab" role="tab" aria-controls="inventory" href="inventory.html"><span class="glyphicon glyphicon-th-list"></span>&nbsp;Parts Inventory</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" id="task-tab" data-toggle="tab" role="tab" aria-controls="tools" href="tools.html"><span class="glyphicon glyphicon-wrench"></span>&nbsp;Tools</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" id="user-tab" data-toggle="tab" role="tab" aria-controls="user" href="preferences.html"><span class="glyphicon glyphicon-cog"></span>&nbsp;User Preferences</a>
+						</li>
+					</ul>
+				</div>
+				<div class="col-lg-2">	
+					<button type="button" class=" btn btn-outline-danger" id="logoutBtn">
+						<span class="glyphicon glyphicon-log-out"></span>&nbsp;Logout
+					</button>
+				</div>
+			</div>
+			<div class="row">&nbsp;</div>
+			<div class="col-lg-12">
+				<div class="row">
+					<div class="col-lg-6">
+						<button type="button" class="btn btn-success" id="addProjectBtn">
+							<span class="glyphicon glyphicon-plus"></span>&nbsp;Add Project
+						</button>
+					</div>		
+				</div>
+				<div class="row">&nbsp;</div>
+				<div class="row">
+					<div class="col-sm-12">
+						<table class="table table-striped" id="projectsTable">
+							<thead>
+								<th scope="col">Name</th>
+								<th scope="col">Description</th>
+								<th scope="col">Tags</th>
+								<th scope="col">Start Date</th>
+								<th scope="col">End Date</th>
+								<th scope="col">Action</th>
+							</thead>
+							<tbody>
+								<tr><td colspan="6">No data</td></tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="sessionTimed"></div>
+</body>
+</html>
+
+<!-- Add Project modal -->
+
+<div class="modal fade" id="addProjectModal" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header d-block alert-success">
+				<div class="row">
+					<div class="col-lg-2">&nbsp;</div>
+					<div class="col-lg-8">
+						<h5 class="modal-title text-center">Add Project</h5>
+					</div>
+					<div class="col-lg-2">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+				</div>
+			</div>
+			<div class="modal-body">
+				
+				<div class="row">
+					<div class="col-sm-3">&nbsp;</div>
+					<div class="col-sm-6">
+						<div class="input-group">
+							<div class='input-group-prepend'>
+								<span class="input-group-text">Name</span>
+							</div>
+							<input type="text" class="form-control" id="addProjName">
+						</div>
+					</div>
+				</div>
+				<div class="row">&nbsp;</div>
+				<div class="row">
+					<div class="col-sm-2 text-right">&nbsp;</div>
+					<div class="col-sm-8">
+						<div class="input-group">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Description</span>
+							</div>
+							<textarea class="form-control" rows="4" id="addProjDescription"></textarea>
+						</div>
+					</div>
+				</div>
+				<div class="row">&nbsp;</div>
+				<div class="row">
+					<div class="col-sm-2">&nbsp;</div>
+					<div class="col-sm-4 text-right">Starting Budget</div>
+					<div class="col-sm-4">
+						<div class="input-group">
+							<div class='input-group-prepend'>
+								<span class="input-group-text">$</span>
+							</div>
+							<input type="text" class="form-control" id="addProjBudget">
+						</div>
+					</div>
+				</div>
+				<div class="row">&nbsp;</div>
+				<div class="row">
+					<div class="col-sm-2">&nbsp;</div>
+					<div class="col-sm-4 text-right">Start Date</div>
+					<div class="col-sm-4">
+						<div class="form-group">
+							<div class="input-group date" id="addProjStart">
+								<input type="text" class="form-control">
+								<span class="input-group-addon">
+									<span class="glyphicon glyphicon-calendar"></span>
+								</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">&nbsp;</div>
+				<div class="row">
+					<div class="col-sm-2">&nbsp;</div>
+					<div class="col-sm-4 text-right">End Date</div>
+					<div class="col-sm-4">
+						<div class="form-group">
+							<div class="input-group date" id="addProjEnd">
+								<input type="text" class="form-control">
+								<span class="input-group-addon">
+									<span class="glyphicon glyphicon-calendar"></span>
+								</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">&nbsp;</div>
+				<div class="row">
+					<div class="col-sm-3">&nbsp;</div>
+					<div class="col-sm-6">
+						<div class="input-group">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Car</span>
+							</div>
+							<select class="form-control" id="addProjCar"></select>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-success" id="pushProjectToDB">
+					<span class="glyphicon glyphicon-cloud-upload"></span>&nbsp;Add Project
+				</button>&nbsp;
+				<button type="button" class="btn btn-outline-secondary" id="cancelAddProjectBtn" data-dismiss="modal">
+					<span class="glyphicon glyphicon-ban-circle"></span>&nbsp;Cancel
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Edit Project Model Section -->
+
+<div class="modal fade" id="editProjectModal" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header d-block alert-warning">
+				<div class="row">
+					<div class="col-lg-2">&nbsp;</div>
+					<div class="col-lg-8">
+						<h5 class="modal-title text-center">Edit Project</h5>
+					</div>
+					<div class="col-lg-2">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+				</div>
+			</div>
+			<div class="modal-body">
+				
+				<input type="hidden" id="editProjIdHdn">
+				<div class="row">
+					<div class="col-sm-3">&nbsp;</div>
+					<div class="col-sm-6">
+						<div class="input-group">
+							<div class='input-group-prepend'>
+								<span class="input-group-text">Name</span>
+							</div>
+							<input type="text" class="form-control" id="editProjName">
+						</div>
+					</div>
+				</div>
+				<div class="row">&nbsp;</div>
+				<div class="row">
+					<div class="col-sm-2 text-right">&nbsp;</div>
+					<div class="col-sm-8">
+						<div class="input-group">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Description</span>
+							</div>
+							<textarea class="form-control" rows="4" id="editProjDescription"></textarea>
+						</div>
+					</div>
+				</div>
+				<div class="row">&nbsp;</div>
+				<div class="row">
+					<div class="col-sm-2">&nbsp;</div>
+					<div class="col-sm-4 text-right">Starting Budget</div>
+					<div class="col-sm-4">
+						<div class="input-group">
+							<div class='input-group-prepend'>
+								<span class="input-group-text">$</span>
+							</div>
+							<input type="text" class="form-control" id="editProjBudget">
+						</div>
+					</div>
+				</div>
+				<div class="row">&nbsp;</div>
+				<div class="row">
+					<div class="col-sm-2">&nbsp;</div>
+					<div class="col-sm-4 text-right">Start Date</div>
+					<div class="col-sm-4">
+						<div class="form-group">
+							<div class="input-group date" id="editProjStart">
+								<input type="text" class="form-control">
+								<span class="input-group-addon">
+									<span class="glyphicon glyphicon-calendar"></span>
+								</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">&nbsp;</div>
+				<div class="row">
+					<div class="col-sm-2">&nbsp;</div>
+					<div class="col-sm-4 text-right">End Date</div>
+					<div class="col-sm-4">
+						<div class="form-group">
+							<div class="input-group date" id="editProjEnd">
+								<input type="text" class="form-control">
+								<span class="input-group-addon">
+									<span class="glyphicon glyphicon-calendar"></span>
+								</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">&nbsp;</div>
+				<div class="row">
+					<div class="col-sm-3">&nbsp;</div>
+					<div class="col-sm-6">
+						<div class="input-group">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Car</span>
+							</div>
+							<select class="form-control" id="editProjCar"></select>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-warning" id="pushEditProjectToDB">
+					<span class="glyphicon glyphicon-cloud-upload"></span>&nbsp;Update Project
+				</button>&nbsp;
+				<button type="button" class="btn btn-outline-secondary" id="cancelEditProjectBtn" data-dismiss="modal">
+					<span class="glyphicon glyphicon-ban-circle"></span>&nbsp;Cancel
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Add Tag Modal Section -->
+
+
+<div class="modal fade" id="addTagModal" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header d-block alert-success">
+				<div class="row">
+					<div class="col-lg-2">&nbsp;</div>
+					<div class="col-lg-8">
+						<h5 class="modal-title text-center">Add Sub Assembly</h5>
+					</div>
+					<div class="col-lg-2">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+				</div>
+			</div>
+			<div class="modal-body">
+				<input type="hidden" id="addTagIdHdn">
+				<div class="row">
+					<div class="col-sm-3">&nbsp;</div>
+					<div class="col-sm-6">
+						<div class="input-group">
+							<div class='input-group-prepend'>
+								<span class="input-group-text">Sub Assembly</span>
+							</div>
+							<input type="text" class="form-control" id="AddTag">
+						</div>
+					</div>
+				</div>	
+				<div class="row">&nbsp;</div>	
+			</div>
+			
+			<div class="modal-footer">
+				<button type="button" class="btn btn-success" id="pushTagToDB">
+					<span class="glyphicon glyphicon-cloud-upload"></span>&nbsp;Add Sub Assembly
+				</button>&nbsp;
+				<button type="button" class="btn btn-outline-secondary" id="cancelAddTagBtn" data-dismiss="modal">
+					<span class="glyphicon glyphicon-ban-circle"></span>&nbsp;Cancel
+				</button>
+			</div>
+		</div>
+	</div>
+</div>

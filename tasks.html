@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charsset="utf-8">
+	<title>Car Budgets</title>
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/font-awesome-4.7.0/css/font-awesome.min.css">
+	<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
+	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico" /> 
+	<link rel="icon" type="image/x-icon" href="favicon.ico" />
+</head>
+<body>
+	<script src="jquery-3.3.1.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
+	
+	<script src="js/tasks/tasks.js"></script>
+	<script src="js/tasks/info.js"></script>
+	<!-- <script src="js/tasks/partorder.js"></script> -->
+	<script src="js/tasks/tags.js"></script>
+	<script src="js/login.js"></script>
+	<script src="js/nav.js"></script>
+	<script src="js/dateFunctions.js"></script>
+	<div class="col-sm-12">
+		<div class="jumbotron danger">
+			<h1 text="center">Car Budgets</h1>Just how much do I spend getting dirty
+		</div>
+	</div>
+	<div id="topMenu">
+		<div class="col-lg-12">
+			<div class="row">
+				<div class="col-lg-9" role="navigation">
+					<ul class="nav nav-tabs" role="tablist">
+						<li class="nav-item">
+							<a class="nav-link" id="car-tab" data-toggle="tab" role="tab" aria-controls="cars" href="cars.html"><i class="fa fa-car" aria-hidden="true"></i>&nbsp;Cars</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" id="project-tab" data-toggle="tab" role="tab" aria-controls="project" href="projects.html"><span class="glyphicon glyphicon-book"></span>&nbsp;Projects</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link active" id="task-tab" data-toggle="tab" role="tab" aria-controls="task" href="tasks.html"><span class="glyphicon glyphicon-tasks"></span>&nbsp;Tasks</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" id="task-tab" data-toggle="tab" role="tab" aria-controls="vendors" href="vendors.html"><span class="glyphicon glyphicon-globe"></span>&nbsp;Vendors</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" id="task-tab" data-toggle="tab" role="tab" aria-controls="inventory" href="inventory.html"><span class="glyphicon glyphicon-th-list"></span>&nbsp;Parts Inventory</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" id="task-tab" data-toggle="tab" role="tab" aria-controls="tools" href="tools.html"><span class="glyphicon glyphicon-wrench"></span>&nbsp;Tools</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" id="user-tab" data-toggle="tab" role="tab" aria-controls="user" href="preferences.html"><span class="glyphicon glyphicon-cog"></span>&nbsp;User Preferences</a>
+						</li>
+					</ul>
+				</div>
+				<div class="col-lg-2">	
+					<button type="button" class=" btn btn-outline-danger" id="logoutBtn">
+						<span class="glyphicon glyphicon-log-out"></span>&nbsp;Logout
+					</button>
+				</div>
+			</div>
+
+			<div class="row">&nbsp;</div>
+			<div class="col-md-11" id="tasks">
+					
+			</div>
+			</div>
+
+		</div>
+	</div>
+	<div id="sessionTimed"></div>
+</body>
+</html>
+
+<!-- Add Task modal -->
+
+<div class="modal fade" id="addTaskModal" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header d-block alert-success">
+				<div class="row">
+					<div class="col-lg-2">&nbsp;</div>
+					<input type="hidden" id="addTaskIdHdn">
+					<div class="col-lg-8">
+						<h5 class="modal-title text-center">Add Task</h5>
+					</div>
+					<div class="col-lg-2">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+				</div>
+			</div>
+			<div class="modal-body">
+				
+				<div class="row">
+					<div class="col-sm-3">&nbsp;</div>
+					<div class="col-sm-6">
+						<div class="input-group">
+							<div class='input-group-prepend'>
+								<span class="input-group-text">Name</span>
+							</div>
+							<input type="text" class="form-control" id="addTaskName">
+						</div>
+					</div>
+				</div>
+				<div class="row">&nbsp;</div>
+				<div class="row">
+					<div class="col-sm-2 text-right">&nbsp;</div>
+					<div class="col-sm-8">
+						<div class="input-group">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Description</span>
+							</div>
+							<textarea class="form-control" rows="4" id="addTaskDescription"></textarea>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-success" id="pushTaskToDB">
+					<span class="glyphicon glyphicon-cloud-upload"></span>&nbsp;Add Task
+				</button>&nbsp;
+				<button type="button" class="btn btn-outline-secondary" id="cancelAddTaskBtn" data-dismiss="modal">
+					<span class="glyphicon glyphicon-ban-circle"></span>&nbsp;Cancel
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Edit Task Model Section -->
+
+<div class="modal fade" id="editTaskModal" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header d-block alert-warning">
+				<div class="row">
+					<div class="col-lg-2">&nbsp;</div>
+					<div class="col-lg-8">
+						<h5 class="modal-title text-center">Edit Task</h5>
+					</div>
+					<div class="col-lg-2">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+				</div>
+			</div>
+			<div class="modal-body">
+				
+				<input type="hidden" id="editTaskIdHdn">
+				<div class="row">
+					<div class="col-sm-3">&nbsp;</div>
+					<div class="col-sm-6">
+						<div class="input-group">
+							<div class='input-group-prepend'>
+								<span class="input-group-text">Name</span>
+							</div>
+							<input type="text" class="form-control" id="editTaskName">
+						</div>
+					</div>
+				</div>
+				<div class="row">&nbsp;</div>
+				<div class="row">
+					<div class="col-sm-2 text-right">&nbsp;</div>
+					<div class="col-sm-8">
+						<div class="input-group">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Description</span>
+							</div>
+							<textarea class="form-control" rows="4" id="editTaskDescription"></textarea>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-warning" id="pushEditTaskToDB">
+					<span class="glyphicon glyphicon-cloud-upload"></span>&nbsp;Update Task
+				</button>&nbsp;
+				<button type="button" class="btn btn-outline-secondary" id="cancelEditTaskBtn" data-dismiss="modal">
+					<span class="glyphicon glyphicon-ban-circle"></span>&nbsp;Cancel
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Task Info Model Section -->
+
+<div class="modal fade" id="infoTaskModal" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header d-block alert-info">
+				<div class="row">
+					<div class="col-lg-2">&nbsp;</div>
+					<div class="col-lg-8">
+						<h5 class="modal-title text-center">Task Details</h5>
+					</div>
+					<div class="col-lg-2">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+				</div>
+			</div>
+			<div class="modal-body">
+				
+				<input type="hidden" id="infoTaskIdHdn">
+				<div class="row">
+					<div class="col-sm-3 text-right"><b>Name</b></div>
+					<div class="col-sm-9">
+						<div id="infoTaskName"></div>				
+					</div>
+				</div>
+				<div class="row">&nbsp;</div>
+				<div class="row">
+					<div class="col-sm-3 text-right"><b>Description</b></div>
+					<div class="col-sm-9">
+						<div id="infoTaskDescription"></div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-info" id="cancelInfoTaskBtn" onclick="closeInfo()">
+					<span class="glyphicon glyphicon-off"></span>&nbsp;Close
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Car Info Model Section -->
+
+<div class="modal fade" id="infoCarModal" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header d-block alert-info">
+				<div class="row">
+					<div class="col-lg-2">&nbsp;</div>
+					<div class="col-lg-8">
+						<h5 class="modal-title text-center">Car Details</h5>
+					</div>
+					<div class="col-lg-2">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+				</div>
+			</div>
+			<div class="modal-body">
+				
+				<input type="hidden" id="infoTaskIdHdn">
+				<div class="row">
+					<div class="col-sm-6 text-right"><b>Year</b></div>
+					<div class="col-sm-6">
+						<div id="infoCarYear"></div>
+					</div>
+				</div>
+				<div class="row">&nbsp;</div>
+				<div class="row">
+					<div class="col-sm-6 text-right"><b>Make</b></div>
+					<div class="col-sm-6">
+						<div id="infoCarMake"></div>				
+					</div>
+				</div>
+				<div class="row">&nbsp;</div>
+				<div class="row">
+					<div class="col-sm-6 text-right"><b>Model</b></div>
+					<div class="col-sm-6">
+						<div id="infoCarModel"></div>
+					</div>
+				</div>
+				<div class="row">&nbsp;</div>
+				<div class="row">
+					<div class="col-sm-6 text-right"><b>Color</b></div>
+					<div class="col-sm-6">
+						<div id="infoCarColor"></div>				
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-info" id="cancelInfoCarBtn" data-dismiss="modal">
+					<span class="glyphicon glyphicon-off"></span>&nbsp;Close
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+

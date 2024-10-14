@@ -1,0 +1,46 @@
+.inventory-scroll  {
+	display:block;
+	max-height: 425px;
+	overflow-y:scroll;
+}
+/*.tableWrap {
+	height: 450px;
+/*	border: 2px solid black;*/
+/*	overflow: auto;
+}
+thead tr th {
+	position: sticky;
+	top 0;
+}
+
+table {
+	border-collapse: collapse;
+}
+th {
+	padding: 16px;
+	padding-left: 15px;
+	border-bottom: 1px solid #e8e8e8;
+	background: black;
+	color: white;
+	text-align: left;
+	box-shadow: 0px 0px 0 2px #e8e8e8;
+}
+
+/* Basic Demo styling */
+/*table {
+  width: 100%;
+  font-family: sans-serif;
+}
+table td {
+  padding: 16px;
+}
+tbody tr {
+  border-bottom: 2px solid #e8e8e8;
+}
+thead {
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.85);
+}
+tbody tr:hover {
+  background: #e6f7ff;
+}*/

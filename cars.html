@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charsset="utf-8">
+	<title>Car Budgets</title>
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/font-awesome-4.7.0/css/font-awesome.min.css">
+	<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
+	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico" /> 
+	<link rel="icon" type="image/x-icon" href="favicon.ico" />
+</head>
+<body>
+	<script src="jquery-3.3.1.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
+	
+	<script src="js/cars/cars.js"></script>
+	<script src="js/login.js"></script>
+	<script src="js/nav.js"></script>
+	<div class="col-sm-12">
+		<div class="jumbotron danger">
+			<h1 text="center">Car Budgets</h1>Just how much do I spend getting dirty
+		</div>
+	</div>
+	<div id="topMenu">
+		<div class="col-lg-12">
+			<div class="row">
+				<div class="col-lg-9" role="navigation">
+					<ul class="nav nav-tabs" role="tablist">
+						<li class="nav-item">
+							<a class="nav-link active" id="car-tab" data-toggle="tab" role="tab" aria-controls="cars" href="cars.html"><i class="fa fa-car" aria-hidden="true"></i>&nbsp;Cars</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" id="project-tab" data-toggle="tab" role="tab" aria-controls="project" href="projects.html"><span class="glyphicon glyphicon-book"></span>&nbsp;Projects</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" id="task-tab" data-toggle="tab" role="tab" aria-controls="task" href="tasks.html"><span class="glyphicon glyphicon-tasks"></span>&nbsp;Tasks</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" id="task-tab" data-toggle="tab" role="tab" aria-controls="vendors" href="vendors.html"><span class="glyphicon glyphicon-globe"></span>&nbsp;Vendors</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" id="task-tab" data-toggle="tab" role="tab" aria-controls="inventory" href="inventory.html"><span class="glyphicon glyphicon-th-list"></span>&nbsp;Parts Inventory</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" id="task-tab" data-toggle="tab" role="tab" aria-controls="tools" href="tools.html"><span class="glyphicon glyphicon-wrench"></span>&nbsp;Tools</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" id="user-tab" data-toggle="tab" role="tab" aria-controls="user" href="preferences.html"><span class="glyphicon glyphicon-cog"></span>&nbsp;User Preferences</a>
+						</li>
+					</ul>
+				</div>
+				<div class="col-lg-2">	
+					<button type="button" class=" btn btn-outline-danger" id="logoutBtn">
+						<span class="glyphicon glyphicon-log-out"></span>&nbsp;Logout
+					</button>
+				</div>
+			</div>
+			<div class="row">&nbsp;</div>
+			<div class="col-lg-11">
+				<div class="row">
+					<div class="col-lg-6">
+						<button type="button" class="btn btn-success" id="addCarBtn">
+							<span class="glyphicon glyphicon-plus"></span>&nbsp;Add Car
+						</button>
+					</div>		
+				</div>
+				<div class="row">&nbsp;</div>
+				<div class="row">
+					<table class="table table-striped" id="carsTable">
+						<thead>
+							<th scope="col">Make</th>
+							<th scope="col">Model</th>
+							<th scope="col">Color</th>
+							<th scope="col">Year</th>
+							<th scope="col">Action</th>
+						</thead>
+						<tbody>
+							<tr><td colspan="5">No data</td></tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+		</div>
+	</div>
+	<div id="sessionTimed"></div>
+</body>
+</html>
+
+<!-- Add cars modal -->
+
+<div class="modal fade" id="addCarModal" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header d-block alert-success">
+				<div class="row">
+					<div class="col-lg-2">&nbsp;</div>
+					<div class="col-lg-8">
+						<h5 class="modal-title text-center">Add Car</h5>
+					</div>
+					<div class="col-lg-2">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+				</div>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-sm-2 text-right">&nbsp;</div>
+					<div class="col-sm-8">
+						<div class="form-group" x-data="{fileName: ''}">
+							<div class="input-group ">
+								<span class="input-group-text text-muted">
+									<span class="glyphicon glyphicon-picture"></span>
+								</span>
+								<input type="file" x-ref="file" @change="fileName = $refs.file.files[0].name" name="img[]" class="d-none">
+								<input type="text" class="form-control form-control" placeholder="Upload Image" x-model="fileName">
+								<button class="browse btn btn-outline-success " type="file" x-on:click.prevent="$refs.file.click()"><span class="glyphicon glyphicon-search"></span>&nbsp;Browse</button>
+							</div>
+						</div>
+					</div>	
+				</div>
+				<div class="row">&nbsp;</div>
+				<div class="row">
+					<div class="col-sm-3">&nbsp;</div>
+					<div class="col-sm-6">
+						<div class="input-group">
+							<div class='input-group-prepend'>
+								<span class="input-group-text">Make</span>
+							</div>
+							<input type="text" class="form-control" id="addMake">
+						</div>
+					</div>
+				</div>
+				<div class="row">&nbsp;</div>
+				<div class="row">
+					<div class="col-sm-3">&nbsp;</div>
+					<div class="col-sm-6">
+						<div class="input-group">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Model</span>
+							</div>
+							<input type="text" class="form-control" id="addModel">
+						</div>
+					</div>
+				</div>
+				<div class="row">&nbsp;</div>
+				<div class="row">
+					<div class="col-sm-3">&nbsp;</div>
+					<div class="col-sm-6">
+						<div class="input-group">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Color</span>
+							</div>
+							<input type="text" class="form-control" id="addColor">
+						</div>
+					</div>
+				</div>
+				<div class="row">&nbsp;</div>
+				<div class="row">
+					<div class="col-sm-3">&nbsp;</div>
+					<div class="col-sm-6">
+						<div class="input-group">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Year</span>
+							</div>
+							<input type="text" class="form-control" id="addYear">
+						</div>
+					</div>
+				</div>
+				<div class="row">&nbsp;</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-success" id="pushCarToDB">
+					<span class="glyphicon glyphicon-cloud-upload"></span>&nbsp;Add Car
+				</button>&nbsp;
+				<button type="button" class="btn btn-outline-secondary" id="cancelAddCarBtn" data-dismiss="modal">
+					<span class="glyphicon glyphicon-ban-circle"></span>&nbsp;Cancel
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Add Car Pic Modal Section -->
+
+<div class="modal fade" id="addCarPicModal" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header d-block alert-success">
+				<div class="row">
+					<div class="col-lg-2">&nbsp;</div>
+					<div class="col-lg-8">
+						<h5 class="modal-title text-center">Add Car Photo</h5>
+					</div>
+					<div class="col-lg-2">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+				</div>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-sm-3 text-right">Picture</div>
+					<div class="col-sm-6">
+						<input type="file" id="pictureEditFile" class="form-control-file">
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-warning" id="pushAddCarPicToDB">
+					<span class="glyphicon glyphicon-cloud-upload"></span>&nbsp;Add Photo
+				</button>&nbsp;
+				<button type="button" class="btn btn-outline-secondary" id="cancelAddCarPicBtn" data-dismiss="modal">
+					<span class="glyphicon glyphicon-ban-circle"></span>&nbsp;Cancel
+				</button>
+			</div>	
+		</div>
+	</div>
+</div>
+
+<!-- Edit Car Pic Modal Section -->
+
+<div class="modal fade" id="editCarPicModal" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header d-block alert-warning">
+				<div class="row">
+					<div class="col-lg-2">&nbsp;</div>
+					<div class="col-lg-8">
+						<h5 class="modal-title text-center">Edit Car Photo</h5>
+					</div>
+					<div class="col-lg-2">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+				</div>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-sm-3 text-right"><img id="carPicSpot"></div>
+					<div class="col-sm-6">
+						<input type="file" id="pictureEditFile" class="form-control-file">
+					</div>
+				</div>
+				<div class="row">&nbsp;</div>
+				<div class="row">
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-warning" id="pushEditCarPicToDB">
+					<span class="glyphicon glyphicon-cloud-upload"></span>&nbsp;Update Photo
+				</button>&nbsp;
+				<button type="button" class="btn btn-outline-secondary" id="cancelEditCarPicBtn" data-dismiss="modal">
+					<span class="glyphicon glyphicon-ban-circle"></span>&nbsp;Cancel
+				</button>
+			</div>	
+		</div>
+	</div>
+</div>
+
+<!-- Edit Car Modal Section -->
+
+<div class="modal fade" id="editCarModal" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header d-block alert-warning">
+				<div class="row">
+					<div class="col-lg-2">&nbsp;</div>
+					<div class="col-lg-8">
+						<h5 class="modal-title text-center">Edit Car</h5>
+					</div>
+					<div class="col-lg-2">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+				</div>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<input type="hidden" id="editCarIdHdn">
+					<div class="col-sm-3">&nbsp;</div>
+					<div class="col-sm-6">
+						<div class="input-group">
+							<div class='input-group-prepend'>
+								<span class="input-group-text">Make</span>
+							</div>
+							<input type="text" class="form-control" id="editMake">
+						</div>
+					</div>
+				</div>
+				<div class="row">&nbsp;</div>
+				<div class="row">
+					<div class="col-sm-3">&nbsp;</div>
+					<div class="col-sm-6">
+						<div class="input-group">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Model</span>
+							</div>
+							<input type="text" class="form-control" id="editModel">
+						</div>
+					</div>
+				</div>
+				<div class="row">&nbsp;</div>
+				<div class="row">
+					<div class="col-sm-3">&nbsp;</div>
+					<div class="col-sm-6">
+						<div class="input-group">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Color</span>
+							</div>
+							<input type="text" class="form-control" id="editColor">
+						</div>
+					</div>
+				</div>
+				<div class="row">&nbsp;</div>
+				<div class="row">
+					<div class="col-sm-3">&nbsp;</div>
+					<div class="col-sm-6">
+						<div class="input-group">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Year</span>
+							</div>
+							<input type="text" class="form-control" id="editYear">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-warning" id="pushEditCarToDB">
+					<span class="glyphicon glyphicon-cloud-upload"></span>&nbsp;Edit Car
+				</button>&nbsp;
+				<button type="button" class="btn btn-outline-secondary" id="cancelEditCarBtn" data-dismiss="modal">
+					<span class="glyphicon glyphicon-ban-circle"></span>&nbsp;Cancel
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
