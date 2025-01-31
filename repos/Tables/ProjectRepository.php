@@ -51,7 +51,7 @@ class ProjectRepository {
 	
 	function getProjectById($id) {
 		if (isset($id) && $id > 0) {
-			$sql = "SELECT * from projects WHERE id = ? AND deleted = 0";
+			$sql = "SELECT * from Projects WHERE id = ? AND deleted = 0";
 			$statement = $this->conn->prepare($sql);
 			$statement->bindParam(1, $id);
 			$statement->execute();
@@ -65,7 +65,7 @@ class ProjectRepository {
 	function updateProjectById($id, $name, $description, $start_date, $end_date, $car_id, $budget) {
 		if (isset($name) && isset($description) && isset($start_date) && isset($end_date)
 		    	&& isset($car_id) && $car_id > 0 && isset($id) && $id > 0 && isset($budget) && $budget > 0) {
-			$sql = "UPDATE projects SET name = ?, description = ?, start_date = ?, end_date = ?, car_id = ?, starting_budget = ? WHERE id = ?";
+			$sql = "UPDATE Projects SET name = ?, description = ?, start_date = ?, end_date = ?, car_id = ?, starting_budget = ? WHERE id = ?";
 			$statement = $this->conn->prepare($sql);
 			$statement->bindParam(1, $name);
 			$statement->bindParam(2, $description);
@@ -80,7 +80,7 @@ class ProjectRepository {
 	
 	function removeProjectById($id) {
 		if (isset($id) && $id > 0) {
-			$sql = "UPDATE projects SET deleted = 1 WHERE id = ?";
+			$sql = "UPDATE Projects SET deleted = 1 WHERE id = ?";
 			$statement = $this->conn->prepare($sql);
 			$statement->bindParam(1, $id);
 			$statement->execute();
@@ -90,7 +90,7 @@ class ProjectRepository {
 	function addProject($name, $description, $start_date, $end_date, $car_id, $budget, $user) {
 		if (isset($name) && isset($description) && isset($start_date) && isset($end_date) 
 				&& isset($car_id) && $car_id > 0 && isset($budget) && isset($user) && $user > 0) {
-			$sql = "INSERT INTO projects (name, description, start_date, end_date, car_id, starting_budget, user) VALUES(?, ?, ?, ?, ?, ?, ?)";
+			$sql = "INSERT INTO Projects (name, description, start_date, end_date, car_id, starting_budget, user) VALUES(?, ?, ?, ?, ?, ?, ?)";
 			$statement = $this->conn->prepare($sql);
 			$statement->bindParam(1, $name);
 			$statement->bindParam(2, $description);
@@ -105,7 +105,7 @@ class ProjectRepository {
 	
 	function getAllProjects($id) {
 		if (isset($id) && $id > 0) {
-			$sql = "SELECT * FROM projects WHERE deleted = 0 AND user = ?";
+			$sql = "SELECT * FROM Projects WHERE deleted = 0 AND user = ?";
 			$statement = $this->conn->prepare($sql);
 			$statement->bindParam(1, $id);
 			$statement->execute();

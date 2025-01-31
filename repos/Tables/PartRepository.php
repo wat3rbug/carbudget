@@ -27,7 +27,7 @@ class PartRepository {
 	
 	function checkPartExists($name, $description, $num) {
 		if (isset($name) && isset($description)) {
-			$sql = "SELECT * FROM parts WHERE istool = 0 AND deleted = 0 AND name = ? AND description = ? AND part_num = ?";
+			$sql = "SELECT * FROM Parts WHERE istool = 0 AND deleted = 0 AND name = ? AND description = ? AND part_num = ?";
 			$statement = $this->conn->prepare($sql);
 			$statement->bindParam(1, $name);
 			$statement->bindParam(2, $description);
@@ -43,7 +43,7 @@ class PartRepository {
 	
 	function getPartById($id) {
 		if (isset($id) && $id > 0) {
-			$sql = "SELECT * from parts WHERE id = ? AND deleted = 0 AND istool = 0";
+			$sql = "SELECT * from Parts WHERE id = ? AND deleted = 0 AND istool = 0";
 			$statement = $this->conn->prepare($sql);
 			$statement->bindParam(1, $id);
 			$statement->execute();
@@ -56,7 +56,7 @@ class PartRepository {
 	}
 	function updatePartById($name, $description, $id, $num) {
 		if (isset($name) && isset($description) && isset($id) && $id > 0) {
-			$sql = "UPDATE parts SET name = ?, description = ?, part_num = ? WHERE id = ? AND istool = 0";
+			$sql = "UPDATE Parts SET name = ?, description = ?, part_num = ? WHERE id = ? AND istool = 0";
 			$statement = $this->conn->prepare($sql);
 			$statement->bindParam(1, $name);
 			$statement->bindParam(2, $description);
@@ -68,7 +68,7 @@ class PartRepository {
 	
 	function removePartById($id) {
 		if (isset($id) && $id > 0) {
-			$sql = "UPDATE parts SET deleted = 1 WHERE id = ? AND istool = 0";
+			$sql = "UPDATE Parts SET deleted = 1 WHERE id = ? AND istool = 0";
 			$statement = $this->conn->prepare($sql);
 			$statement->bindParam(1, $id);
 			$statement->execute();
@@ -77,7 +77,7 @@ class PartRepository {
 	
 	function addPart($name, $description, $num) {
 		if (isset($name) && isset($description)) {
-			$sql = "INSERT INTO parts (name, description, part_num, istool) VALUES(?, ?, ?, 0)";
+			$sql = "INSERT INTO Parts (name, description, part_num, istool) VALUES(?, ?, ?, 0)";
 			$statement = $this->conn->prepare($sql);
 			$statement->bindParam(1, $name);
 			$statement->bindParam(2, $description);
@@ -87,7 +87,7 @@ class PartRepository {
 	}	
 	
 	function getAllParts() {
-		$sql = "SELECT * from parts where deleted = 0 AND istool = 0 AND name <> 'shipping'";
+		$sql = "SELECT * from Parts where deleted = 0 AND istool = 0 AND name <> 'shipping'";
 		$statement = $this->conn->prepare($sql);
 		$statement->execute();
 		$output = array();
@@ -100,7 +100,7 @@ class PartRepository {
 	function getFilteredParts($filter) {
 		if (isset($filter) && strlen($filter) > 2) {
 			$filter = "%$filter%";
-			$sql = "SELECT * FROM `parts` WHERE `deleted` = 0 AND `istool` = 0 AND `name` <> 'shipping' AND (`name` LIKE :name OR `description` LIKE :name)";
+			$sql = "SELECT * FROM `Parts` WHERE `deleted` = 0 AND `istool` = 0 AND `name` <> 'shipping' AND (`name` LIKE :name OR `description` LIKE :name)";
 			$statement = $this->conn->prepare($sql);
 			$statement->bindParam(':name', $filter);
 			$statement->execute();

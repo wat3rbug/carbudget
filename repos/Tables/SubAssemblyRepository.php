@@ -49,7 +49,7 @@ class SubAssemblyRepository {
 	}
 	
 	function getAllTags() {
-		$sql = "SELECT b.*, a.sa_name FROM subassemblies AS a JOIN project_sub_assemblies AS b ON a.id = b.sub_assembly WHERE a.deleted = 0 AND b.deleted = 0";
+		$sql = "SELECT b.*, a.sa_name FROM SubAssemblys AS a JOIN ProjectSubAssemblys AS b ON a.id = b.sub_assembly WHERE a.deleted = 0 AND b.deleted = 0";
 		$statement = $this->conn->prepare($sql);
 		$statement->execute();
 		$output = array();

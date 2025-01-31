@@ -26,7 +26,7 @@ class CarRepository {
 	}
 	function getCarById($id) {
 		if (isset($id) && $id > 0) {
-			$sql = "SELECT * from cars WHERE id = ? AND deleted = 0";
+			$sql = "SELECT * from Cars WHERE id = ? AND deleted = 0";
 			$statement = $this->conn->prepare($sql);
 			$statement->bindParam(1, $id);
 			$statement->execute();
@@ -39,7 +39,7 @@ class CarRepository {
 	}
 	function updateCarById($make, $model, $color, $year, $id) {
 		if (isset($make) && isset($model) && isset($color) && isset($year) && isset($id) && $id > 0) {
-			$sql = "UPDATE cars SET make =?, model = ?, color = ?, year = ? WHERE id = ?";
+			$sql = "UPDATE Cars SET make =?, model = ?, color = ?, year = ? WHERE id = ?";
 			$statement = $this->conn->prepare($sql);
 			$statement->bindParam(1, $make);
 			$statement->bindParam(2, $model);
@@ -52,7 +52,7 @@ class CarRepository {
 	
 	function removeCarById($id) {
 		if (isset($id) && $id > 0) {
-			$sql = "UPDATE cars SET deleted = 1 WHERE id = ?";
+			$sql = "UPDATE Cars SET deleted = 1 WHERE id = ?";
 			$statement = $this->conn->prepare($sql);
 			$statement->bindParam(1, $id);
 			$statement->execute();
@@ -61,7 +61,7 @@ class CarRepository {
 	
 	function addCar($make, $model, $color, $year) {
 		if (isset($make) && isset($model) && isset($color) && isset($year)) {
-			$sql = "INSERT INTO cars (make, model, color, year) VALUES(?, ?, ?, ?)";
+			$sql = "INSERT INTO Cars (make, model, color, year) VALUES(?, ?, ?, ?)";
 			$statement = $this->conn->prepare($sql);
 			$statement->bindParam(1, $make);
 			$statement->bindParam(2, $model);
@@ -72,7 +72,7 @@ class CarRepository {
 	}	
 	
 	function getAllCars() {
-		$sql = "SELECT * from cars where deleted = 0";
+		$sql = "SELECT * from Cars where deleted = 0";
 		$statement = $this->conn->prepare($sql);
 		$statement->execute();
 		$output = array();
@@ -84,7 +84,7 @@ class CarRepository {
 	
 	function getCarPic($id) {
 		if (isset($id) && $id > 0) {
-			$sql = "SELECT picture FROM cars WHERE id = ? AND deleted = 0";
+			$sql = "SELECT picture FROM Cars WHERE id = ? AND deleted = 0";
 			$statement = $this->conn->prepare($sql);
 			$statement->bindParam(1, $id);
 			$statement->execute();
@@ -97,7 +97,7 @@ class CarRepository {
 	}
 	function addCarPic($id, $pic) {
 		if (isset($id) && isset($pic)) {
-			$sql = "UPDATE cars SET picture = ? WHERE id = ? AND deleted = 0";
+			$sql = "UPDATE Cars SET picture = ? WHERE id = ? AND deleted = 0";
 			$statement = $this->conn->prepare($sql);
 			$statement->bindParam(2, $id);
 			$statement->bindParam(1, $pic);
@@ -107,7 +107,7 @@ class CarRepository {
 	
 	function getPicFromId($id) {
 		if (isset($id) && $id > 0) {
-			$sql = "SELECT picture FROM cars WHERE id = ? AND deleted = 0";
+			$sql = "SELECT picture FROM Cars WHERE id = ? AND deleted = 0";
 			$statement = $this->conn->prepare($sql);
 			$statement->bindParam(1, $id);
 			$statement->execute();
@@ -121,7 +121,7 @@ class CarRepository {
 	
 	function editPicture($id, $pic) {
 		if (isset($id) && isset($pic) && $id > 0) {
-			$sql = "UPDATE cars SET picture = ? WHERE id = ? AND deleted = 0";
+			$sql = "UPDATE Cars SET picture = ? WHERE id = ? AND deleted = 0";
 			$statement = $this->conn->prepare($sql);
 			$statement->bindParam(1, $pic);
 			$statement->bindParam(2, $id);

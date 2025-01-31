@@ -8,7 +8,7 @@ class DBConnection {
         public $password;
 
         function __construct() {
-                $this->password = "1990BMW325!";
+                $this->password = "67triumph";
                 $this->database = "carbudget";
                 $this->hostname = "phobos";
                 $this->username = "carbudgetuser";

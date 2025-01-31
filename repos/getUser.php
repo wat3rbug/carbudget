@@ -1,9 +1,9 @@
 <?php
 require "Tables/UserRepository.php";
-$email = $_POST['email'];
-$password = $_POST['password'];
-// $email = "doug.gardiner@gmail.com";
-// $password = "gywxy7-qofxyf-Rumjog";
+// $email = $_POST['email'];
+// $password = $_POST['password'];
+$email = "doug.gardiner@gmail.com";
+$password = "91harley";
 
 if (isset($email) && isset($password)) {
 	$db = new UserRepository();

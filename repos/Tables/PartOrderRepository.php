@@ -27,7 +27,7 @@ class PartOrderRepository {
 	
 	function completePartOrder() {
 		$this->conn->beginTransaction();
-		$sql = "SELECT request from partorders GROUP BY request ORDER BY request DESC LIMIT 1";
+		$sql = "SELECT request from PartOrders GROUP BY request ORDER BY request DESC LIMIT 1";
 		$statement = $this->conn->prepare($sql);
 		$statement->execute();
 		$data = array();
@@ -35,7 +35,7 @@ class PartOrderRepository {
 			$data[] = $row;
 		}
 		$request = $data[0]['request'] + 1;
-		$sql = "UPDATE partorders SET request = ? WHERE request IS NULL AND deleted = 0";
+		$sql = "UPDATE PartOrders SET request = ? WHERE request IS NULL AND deleted = 0";
 		$statement = $this->conn->prepare($sql);
 		$statement->bindParam(1, $request);
 		$statement->execute();
@@ -43,7 +43,7 @@ class PartOrderRepository {
 	}
 	
 	function getUnassingedPO() {
-		$sql = "SELECT po.id, v.name,  p.name as part, po.unit_cost, po.quantity, po.unit_cost * po.quantity AS total  FROM partorders AS po JOIN vendors AS v ON po.vendor_id = v.id  JOIN parts AS p ON po.part_id = p.id WHERE po.deleted = 0 AND po.request is null";
+		$sql = "SELECT po.id, v.name,  p.name as part, po.unit_cost, po.quantity, po.unit_cost * po.quantity AS total  FROM PartOrders AS po JOIN vendors AS v ON po.vendor_id = v.id  JOIN parts AS p ON po.part_id = p.id WHERE po.deleted = 0 AND po.request is null";
 		$statement = $this->conn->prepare($sql);
 		$statement->execute();
 		$output = array();
@@ -56,7 +56,7 @@ class PartOrderRepository {
 	function addPartOrder($part, $unitcost, $quantity, $vendor, $orderdate) {
 		if (isset($part) && isset($unitcost) && isset($quantity) 
 				&& isset($vendor) && isset($orderdate)) {
-			$sql = "INSERT INTO partorders (part_id, unit_cost, quantity, vendor_id, order_date) VALUES (?, ?, ?, ?, ?)";
+			$sql = "INSERT INTO PartOrders (part_id, unit_cost, quantity, vendor_id, order_date) VALUES (?, ?, ?, ?, ?)";
 			$statement = $this->conn->prepare($sql);
 			$statement->bindParam(1, $part);
 			$statement->bindParam(2, $unitcost);
@@ -70,14 +70,14 @@ class PartOrderRepository {
 	function poReceived($request) {
 		if (isset($request) && $request > 0) {
 			$this->conn->beginTransaction();
-			$sql = "UPDATE partorders SET receive_date = curdate() WHERE request = ?";
+			$sql = "UPDATE PartOrders SET receive_date = curdate() WHERE request = ?";
 			$statement = $this->conn->prepare($sql);
 			$statement->bindParam(1, $request);
 			$statement->execute();
 			
 			// should make this part a trigger
 			
-			$sql = "SELECT id, quantity FROM partorders WHERE request = ?";
+			$sql = "SELECT id, quantity FROM PartOrders WHERE request = ?";
 			$statement = $this->conn->prepare($sql);
 			$statement->bindParam(1, $request);
 			$statement->execute();
@@ -86,7 +86,7 @@ class PartOrderRepository {
 				$output[] = $row;
 			}
 			foreach($output as $insertrow) {
-				$sql = "SELECT p.name from partorders as po JOIN parts as p on p.id = po.part_id WHERE po.id = ?";
+				$sql = "SELECT p.name from PartOrders as po JOIN parts as p on p.id = po.part_id WHERE po.id = ?";
 				$statement = $this->conn->prepare($sql);
 				$statement->bindParam(1, $insertrow['id']);
 				$statement->execute();
@@ -109,7 +109,7 @@ class PartOrderRepository {
 	
 	function poShipped($request) {
 		if (isset($request) && $request > 0) {
-			$sql = "UPDATE partorders SET ship_date = curdate() WHERE request = ?";
+			$sql = "UPDATE PartOrders SET ship_date = curdate() WHERE request = ?";
 			$statement = $this->conn->prepare($sql);
 			$statement->bindParam(1, $request);
 			$statement->execute();
@@ -118,7 +118,7 @@ class PartOrderRepository {
 	
 	function getPOByRequestId($request) {
 		if (isset($request) && $request > 0) {
-			$sql = "SELECT v.name as vendor, po.unit_cost, po.quantity, po.unit_cost * po.quantity AS total, po.request, p.name, po.order_date FROM partorders AS po JOIN vendors AS v ON po.vendor_id = v.id JOIN  parts AS p ON po.part_id = p.id WHERE po.deleted = 0 AND po.request = ?";
+			$sql = "SELECT v.name as vendor, po.unit_cost, po.quantity, po.unit_cost * po.quantity AS total, po.request, p.name, po.order_date FROM PartOrders AS po JOIN vendors AS v ON po.vendor_id = v.id JOIN  parts AS p ON po.part_id = p.id WHERE po.deleted = 0 AND po.request = ?";
 			$statement = $this->conn->prepare($sql);
 			$statement->bindParam(1, $request);
 			$statement->execute();
@@ -132,7 +132,7 @@ class PartOrderRepository {
 	
 	function removePOById($id) {
 		if (isset($id) && $id > 0) {
-			$sql = "UPDATE partorders SET deleted = 1 WHERE id = ?";
+			$sql = "UPDATE PartOrders SET deleted = 1 WHERE id = ?";
 			$statement = $this->conn->prepare($sql);
 			$statement->bindParam(1, $id);
 			$statement->execute();
@@ -141,7 +141,7 @@ class PartOrderRepository {
 	
 	function removePOByRequest($request) {
 		if (isset($request) && $request > 0) {
-			$sql = "UPDATE partorders SET deleted = 1 WHERE request = ?";
+			$sql = "UPDATE PartOrders SET deleted = 1 WHERE request = ?";
 			$statement = $this->conn->prepare($sql);
 			$statement->bindParam(1, $request);
 			$statement->execute();
@@ -149,7 +149,7 @@ class PartOrderRepository {
 	}
 	
 	function getAllPOsAbbreviated() {
-		$sql = "SELECT v.name, p.order_date, sum(p.unit_cost * p.quantity) AS total, p.request, p.ship_date, p.receive_date FROM partorders AS p JOIN vendors AS v ON p.vendor_id = v.id  WHERE p.deleted = 0 AND p.request IS NOT NULL GROUP BY p.request ORDER BY p.order_date DESC";
+		$sql = "SELECT v.name, p.order_date, sum(p.unit_cost * p.quantity) AS total, p.request, p.ship_date, p.receive_date FROM PartOrders AS p JOIN Vendors AS v ON p.vendor_id = v.id  WHERE p.deleted = 0 AND p.request IS NOT NULL GROUP BY p.request ORDER BY p.order_date DESC";
 		$statement = $this->conn->prepare($sql);
 		$statement->execute();
 		$output = array();

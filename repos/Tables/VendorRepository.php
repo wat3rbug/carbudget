@@ -26,7 +26,7 @@ class VendorRepository {
 	}
 	function getVendorById($id) {
 		if (isset($id) && $id > 0) {
-			$sql = "SELECT * from vendors WHERE id = ? AND deleted = 0";
+			$sql = "SELECT * from Vendors WHERE id = ? AND deleted = 0";
 			$statement = $this->conn->prepare($sql);
 			$statement->bindParam(1, $id);
 			$statement->execute();
@@ -39,7 +39,7 @@ class VendorRepository {
 	}
 	function updateVendorById($name, $url, $address1, $address2, $city, $state, $zipcode, $country, $id) {
 		if (isset($name) && isset($url) && isset($id) && $id > 0) {
-			$sql = "UPDATE vendors SET name =?, url = ?, address1 = ?, address2 = ?, city =?, state = ?, zipcode = ?, country = ? WHERE id = ?";
+			$sql = "UPDATE Vendors SET name =?, url = ?, address1 = ?, address2 = ?, city =?, state = ?, zipcode = ?, country = ? WHERE id = ?";
 			$statement = $this->conn->prepare($sql);
 			$statement->bindParam(1, $name);
 			$statement->bindParam(2, $url);
@@ -56,7 +56,7 @@ class VendorRepository {
 	
 	function removeVendorById($id) {
 		if (isset($id) && $id > 0) {
-			$sql = "UPDATE vendors SET deleted = 1 WHERE id = ?";
+			$sql = "UPDATE Vendors SET deleted = 1 WHERE id = ?";
 			$statement = $this->conn->prepare($sql);
 			$statement->bindParam(1, $id);
 			$statement->execute();
@@ -65,7 +65,7 @@ class VendorRepository {
 	
 	function addVendor($name, $url, $address1, $address2, $city, $state, $zipcode, $country) {
 		if (isset($name) && isset($url)) {
-			$sql = "INSERT INTO vendors (name, url, address1, address2, city, state, zipcode, country) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+			$sql = "INSERT INTO Vendors (name, url, address1, address2, city, state, zipcode, country) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
 			$statement = $this->conn->prepare($sql);
 			$statement->bindParam(1, $name);
 			$statement->bindParam(2, $url);
@@ -80,7 +80,7 @@ class VendorRepository {
 	}	
 	
 	function getAllVendors() {
-		$sql = "SELECT * from vendors where deleted = 0";
+		$sql = "SELECT * from Vendors where deleted = 0";
 		$statement = $this->conn->prepare($sql);
 		$statement->execute();
 		$output = array();
@@ -93,7 +93,7 @@ class VendorRepository {
 	function getFilteredVendors($filter) {
 		if (isset($filter) && strlen($filter) > 2) {
 			$filter = "%$filter%";
-			$sql = "SELECT * FROM `vendors` WHERE `deleted` = 0 AND (`name` LIKE :name OR `url` LIKE :name OR `address1` LIKE :name OR `address2` LIKE :name OR `city` LIKE :name)";
+			$sql = "SELECT * FROM `Vendors` WHERE `deleted` = 0 AND (`name` LIKE :name OR `url` LIKE :name OR `address1` LIKE :name OR `address2` LIKE :name OR `city` LIKE :name)";
 			$statement = $this->conn->prepare($sql);
 			$statement->bindParam(':name', $filter);
 			$statement->execute();

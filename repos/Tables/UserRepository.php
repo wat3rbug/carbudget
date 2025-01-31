@@ -26,7 +26,7 @@ class UserRepository {
 	}
 	function updatePasswordForUser($email, $old, $new) {
 		if (isset($email) && isset($old) && isset($new)) {
-			$sql = "UPDATE users SET password = ? WHERE email = ? AND password = ?";
+			$sql = "UPDATE Users SET password = ? WHERE email = ? AND password = ?";
 			$statement = $this->conn->prepare($sql);
 			$statement->bindParam(1, $newpassword);
 			$statement->bindParam(2, $email);
@@ -37,7 +37,7 @@ class UserRepository {
 	
 	function updateUserById($id, $first, $last, $email) {
 		if (isset($id) && $id > 0 && isset($email)) {
-			$sql = "UPDATE users SET email = ?, first_name = ?, last_name = ? WHERE id = ? AND deleted = 0";
+			$sql = "UPDATE Users SET email = ?, first_name = ?, last_name = ? WHERE id = ? AND deleted = 0";
 			$statement = $this->conn->prepare($sql);
 			$statement->bindParam(1, $email);
 			$statement->bindParam(2, $first);
@@ -49,7 +49,7 @@ class UserRepository {
 	
 	function getUserFromLoginCreds($email, $password) {
 		if (isset($email) && isset($password)) {
-			$sql = "SELECT * FROM users WHERE email = ? AND password = ? LIMIT 1";
+			$sql = "SELECT * FROM Users WHERE email = ? AND password = ? LIMIT 1";
 			$statement = $this->conn->prepare($sql);
 			$statement->bindParam(1, $email);
 			$statement->bindParam(2, $password);
@@ -64,7 +64,7 @@ class UserRepository {
 	
 	function getUserIdFromLogin($email, $password) {
 		if (isset($email) && isset($password)) {
-			$sql = "SELECT id,first_name FROM users WHERE email = ? AND password = ? LIMIT 1";
+			$sql = "SELECT id,first_name FROM Users WHERE email = ? AND password = ? LIMIT 1";
 			$statement = $this->conn->prepare($sql);
 			$statement->bindParam(1, $email);
 			$statement->bindParam(2, $password);
@@ -79,7 +79,7 @@ class UserRepository {
 	
 	function addNewUser($firstName, $lastName, $email, $password) {
 		if (isset($firstName) && isset($lastName) && isset($email) && isset($password)) {
-			$sql = "INSERT into users (first_name, last_name, email, password) VALUES (?, ?, ?, ?)";
+			$sql = "INSERT into Users (first_name, last_name, email, password) VALUES (?, ?, ?, ?)";
 			$statement = $this->conn->prepare($sql);
 			$statement->bindParam(1, $firstName);
 			$statement->bindParam(2, $lastName);
@@ -91,7 +91,7 @@ class UserRepository {
 	
 	function verifyUser($email, $password) {
 		if (isset($email) && isset($password)) {
-			$sql = "SELECT id from users WHERE (email = ? AND password = ?) LIMIT 1";
+			$sql = "SELECT id from Users WHERE (email = ? AND password = ?) LIMIT 1";
 			$statement = $this->conn->prepare($sql);
 			$statement->bindParam(1, $email);
 			$statement->bindParam(2, $password);
@@ -106,7 +106,7 @@ class UserRepository {
 	
 	function getNameAndEmailCount($firstName, $lastName, $email) {
 		if (isset($firstName) && isset($lastName) && isset($email)) {
-			$sql = "SELECT id from users WHERE (first_name = ? AND last_name = ?) OR email = ? AND deleted = 0";
+			$sql = "SELECT id from Users WHERE (first_name = ? AND last_name = ?) OR email = ? AND deleted = 0";
 			$statement = $this->conn->prepare($sql);
 			$statement->bindParam(1, $firstName);
 			$statement->bindParam(2, $lasstName);
@@ -121,7 +121,7 @@ class UserRepository {
 	}
 	
 	function getAllUsers() {
-		$sql = "SELECT * from users WHERE deleted = 0";
+		$sql = "SELECT * from Users WHERE deleted = 0";
 		$statement = $this->conn->prepare($sql);
 		$statement->execute();
 		$output = array();

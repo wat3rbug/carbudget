@@ -27,7 +27,7 @@ class StateRepository {
 	
 	function getStateByPostalCode($postal_code) {
 		if (isset($postal_code)) {
-			$sql = "SELECT * from states WHERE post_code = ? ";
+			$sql = "SELECT * from States WHERE post_code = ? ";
 			$statement = $this->conn->prepare($sql);
 			$statement->bindParam(1, $postal_code);
 			$statement->execute();
@@ -43,7 +43,7 @@ class StateRepository {
 
 	
 	function getAllStates() {
-		$sql = "SELECT * from states";
+		$sql = "SELECT * from States";
 		$statement = $this->conn->prepare($sql);
 		$statement->execute();
 		$output = array();

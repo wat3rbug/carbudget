@@ -26,7 +26,7 @@ class InventoryRepository {
 	}
 	
 	function getToolsInStock() {
-		$sql = "SELECT * FROM v_tools_in_stock WHERE deleted = 0";
+		$sql = "SELECT * FROM ViewToolsInStocks WHERE deleted = 0";
 		$statement = $this->conn->prepare($sql);
 		$statement->execute();
 		$output = array();
@@ -38,7 +38,7 @@ class InventoryRepository {
 	
 	function getToolById($id) {
 		if (isset($id) && $id > 0) {
-			$sql = "SELECT * FROM v_tools_in_stock WHERE id = ? AND deleted = 0";
+			$sql = "SELECT * FROM ViewToolsInStocks WHERE id = ? AND deleted = 0";
 			$statement = $this->conn->prepare($sql);
 			$statement->bindParam(1, $id);
 			$statement->execute();
@@ -63,7 +63,7 @@ class InventoryRepository {
 	
 	function getInventoryById($id) {
 		if (isset($id) && $id > 0) {
-			$sql = "SELECT * FROM v_parts_in_stock WHERE id = ? AND deleted = 0";
+			$sql = "SELECT * FROM ViewPartsInStocks WHERE id = ? AND deleted = 0";
 			$statement = $this->conn->prepare($sql);
 			$statement->bindParam(1, $id);
 			$statement->execute();
@@ -107,7 +107,7 @@ class InventoryRepository {
 	}	
 	
 	function getAllToolInventory() {
-		$sql = "SELECT * FROM v_tools_in_stock";
+		$sql = "SELECT * FROM ViewToolsInStocks";
 		$statement = $this->conn->prepare($sql);
 		$statement->execute();
 		$output = array();
@@ -118,7 +118,7 @@ class InventoryRepository {
 	}
 	
 	function getAllInventory() {
-		$sql = "SELECT * FROM v_parts_in_stock";
+		$sql = "SELECT * FROM ViewPartsInStocks";
 		$statement = $this->conn->prepare($sql);
 		$statement->execute();
 		$output = array();

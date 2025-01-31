@@ -79,7 +79,7 @@ class TaskRepository {
 
 	function getAllTasks($id) {
 		if (isset($id) && $id > 0) {
-			$sql = "SELECT tasks.* FROM tasks JOIN projects ON tasks.project_id = projects.id JOIN users on users.id = projects.user WHERE tasks.deleted = 0 AND projects.user = ? AND completed = 0";
+			$sql = "SELECT Tasks.* FROM Tasks JOIN Projects ON Tasks.project_id = Projects.id JOIN Users on Users.id = Projects.user WHERE Tasks.deleted = 0 AND Projects.user = ? AND completed = 0";
 			$statement = $this->conn->prepare($sql);
 			$statement->bindParam(1, $id);
 			$statement->execute();
