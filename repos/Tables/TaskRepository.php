@@ -26,7 +26,7 @@ class TaskRepository {
 	}
 	
 	function toggleTaskComplete($task) {
-		$sql = "UPDATE tasks SET completed = completed XOR 1 WHERE id = ?";
+		$sql = "UPDATE Tasks SET completed = completed XOR 1 WHERE id = ?";
 		$statement = $this->conn->prepare($sql);
 		$statement->bindParam(1, $task);
 		$statement->execute();
@@ -34,7 +34,7 @@ class TaskRepository {
 	
 	function updateTaskById($id, $name, $description) {
 		if (isset($id) && isset($name) && isset($description) && $id > 0) {
-			$sql = "UPDATE tasks SET name = ?, description = ? WHERE id = ?";
+			$sql = "UPDATE Tasks SET name = ?, description = ? WHERE id = ?";
 			$statement = $this->conn->prepare($sql);
 			$statement->bindParam(1, $name);
 			$statement->bindParam(2, $description);
@@ -45,7 +45,7 @@ class TaskRepository {
 	
 	function getTaskById($id) {
 		if (isset($id) && $id > 0) {
-			$sql = "SELECT * FROM tasks WHERE id = ? AND deleted = 0";
+			$sql = "SELECT * FROM Tasks WHERE id = ? AND deleted = 0";
 			$statement = $this->conn->prepare($sql);
 			$statement->bindParam(1, $id);
 			$statement->execute();
@@ -59,7 +59,7 @@ class TaskRepository {
 	
 	function removeTask($id) {
 		if (isset($id) && $id > 0) {
-			$sql = "UPDATE tasks SET deleted = 1 WHERE id = ?";
+			$sql = "UPDATE Tasks SET deleted = 1 WHERE id = ?";
 			$statement = $this->conn->prepare($sql);
 			$statement->bindParam(1, $id);
 			$statement->execute();
@@ -68,7 +68,7 @@ class TaskRepository {
 	
 	function addTask($id, $name, $description) {
 		if (isset($id) && isset($name) && isset($description) && $id > 0) {
-			$sql = "INSERT INTO tasks (project_id, name, description) VALUES (?, ?, ?)";
+			$sql = "INSERT INTO Tasks (project_id, name, description) VALUES (?, ?, ?)";
 			$statement = $this->conn->prepare($sql);
 			$statement->bindParam(1, $id);
 			$statement->bindParam(2, $name);

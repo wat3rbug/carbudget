@@ -74,10 +74,11 @@
 							<th scope="col">Model</th>
 							<th scope="col">Color</th>
 							<th scope="col">Year</th>
+							<th scope="col">Photo</th>
 							<th scope="col">Action</th>
 						</thead>
 						<tbody>
-							<tr><td colspan="5">No data</td></tr>
+							<tr><td colspan="6">No data</td></tr>
 						</tbody>
 					</table>
 				</div>
@@ -243,17 +244,19 @@
 			</div>
 			<div class="modal-body">
 				<div class="row">
-					<div class="col-sm-3 text-right"><img id="carPicSpot"></div>
+					<div class="col-sm-3 text-right"><input type="hidden" class="editCarPicHdn" /></div>
 					<div class="col-sm-6">
-						<input type="file" id="pictureEditFile" class="form-control-file">
+						<input type="file" id="pictureEditFile" class="form-control-file pictureEditFile">
 					</div>
 				</div>
 				<div class="row">&nbsp;</div>
 				<div class="row">
+					<div class="col-sm-3">&nbsp;</div>
+					<div class="col-sm-6"><img class="carPicSpot" alt="car picture"></div>
 				</div>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-warning" id="pushEditCarPicToDB">
+				<button type="submit" class="btn btn-warning" id="pushEditCarPicToDB">
 					<span class="glyphicon glyphicon-cloud-upload"></span>&nbsp;Update Photo
 				</button>&nbsp;
 				<button type="button" class="btn btn-outline-default" id="cancelEditCarPicBtn" data-dismiss="modal">

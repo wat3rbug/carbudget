@@ -72,6 +72,7 @@ class VendorRepository {
 			$statement->bindParam(3, $address1);
 			$statement->bindParam(4, $address2);
 			$statement->bindParam(5, $city);
+			if ($state == "") $state = "TX";
 			$statement->bindParam(6, $state);
 			$statement->bindParam(7, $zipcode);
 			$statement->bindParam(8, $country);

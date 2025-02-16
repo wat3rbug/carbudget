@@ -28,11 +28,11 @@ class ProjectRepository {
 		if (isset($sa) && isset($project)) {
 
 			$this->conn->beginTransaction();
-			$sql = "INSERT INTO subassemblies (sa_name) VALUES (?)";
+			$sql = "INSERT INTO SubAssemblys (sa_name) VALUES (?)";
 			$statement = $this->conn->prepare($sql);
 			$statement->bindParam(1, $sa);
 			$statement->execute();
-			$sql = "SELECT id FROM subassemblies WHERE sa_name = ? ORDER BY id DESC LIMIT 1";
+			$sql = "SELECT id FROM SubAssemblys WHERE sa_name = ? ORDER BY id DESC LIMIT 1";
 			$statement = $this->conn->prepare($sql);
 			$statement->bindParam(1, $sa);
 			$statement->execute();
@@ -40,7 +40,7 @@ class ProjectRepository {
 			while($row = $statement->fetch()) {
 				$id[] = $row;
 			}
-			$sql = "INSERT INTO project_sub_assemblies (project_id, sub_assembly) VALUES (?, ?)";
+			$sql = "INSERT INTO ProjectSubAssemblys (project_id, sub_assembly) VALUES (?, ?)";
 			$statement = $this->conn->prepare($sql);
 			$statement->bindParam(1, $project);
 			$statement->bindParam(2, $id[0]['id']);

@@ -13,6 +13,10 @@ $(document).ready(function() {
 		var id = $('#editCarIdHdn').val();
 		updateCar(id);
 	});
+
+	$('#pushEditCarPicToDB').on("click", function () {
+		updateCarPic();
+	});
 	
 	$('#addPhoto').on("change", function() {
 		var fileName = $(this).val().split("\\").pop();
@@ -21,6 +25,30 @@ $(document).ready(function() {
 	
 	buildCarTable();
 });
+
+function updateCarPic() {
+	var formData = new FormData();
+	var id = $('.editCarPicHdn').val();
+	formData.append('file', $('#pictureEditFile').val());
+	formData.append('id', id);
+
+	$.ajax({
+		url: "repos/putFile.php",
+		dataType: "post",
+		data: formData,
+		dataType: "text",
+		contentType: false,
+		processData: false,
+		error: function (xhr, status, error) {
+			$('#editCarPicModal').modal('hide');
+            console.error("Upload failed:", status , error);
+		},
+		success: function(results) {
+			$('#editCarPicModal').modal('hide');
+			buildCarTable();
+		}
+	});
+}
 
 function clearModals() {
 	// add car stuff
@@ -64,11 +92,17 @@ function buildCarTable() {
 		success: function(cars) {
 			$('#carsTable').find('tbody tr').remove();
 			if (cars == null || cars.length == 0) {
-				$('#carsTable').append("<tr><td colspan='5' class='text-center'>No Data</td></tr>");
+				$('#carsTable').append("<tr><td colspan='6' class='text-center'>No Data</td></tr>");
 			} else {
 				cars.forEach(function(car) {
 					var row = "<tr><td>" + car.make + "</td><td>" + car.model + "</td>";
 					row += "<td>" + car.color + "</td><td>" + car.year + "</td>";
+					if (car.picture == null || car.picture == "") {
+						row += "<td>N/A</td>";
+					} else {
+						row += "<td><img src='pics/" + car.picture + "'></td>";
+					}
+
 					row += "<td style='width:105px'><button type='button' class='btn btn-outline-warning' ";
 					row += "onclick='editPicture(" + car.id + ")'><span class='glyphicon glyphicon-picture'></span></button>&nbsp;";
 					row += "<button type='button' class='btn btn-outline-warning' ";
@@ -122,7 +156,7 @@ function editCar(id) {
 }
 
 function editPicture(id) {
-	$('#editCarPicHdn').val(id);
+	$('.editCarPicHdn').val(id);
 	$.ajax({
 		url: "repos/getCarPic.php",
 		data: {
@@ -131,8 +165,8 @@ function editPicture(id) {
 		type: "post",
 		success: function(results) {
 			$('#editCarPicModal').modal('show');
-			$('#carPicSpot').attr("src", "upload/" .results);
-			//document.getElementById('carPicSpot').files[0] = results;
+			$('.carPicSpot').attr("src", "pics/" + results);
+			// $('#pictureEditFile').prop('files', results);
 		}	
 	});
 }
