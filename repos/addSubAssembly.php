@@ -4,7 +4,7 @@ require "Tables/ProjectRepository.php";
 $sa = $_POST['sa_name'];
 $project = $_POST['project'];
 
-// $sa = "programming";
+// $sa = "electronic fabrication";
 // $project = "7";
 
 if (isset($sa) && isset($project)) {

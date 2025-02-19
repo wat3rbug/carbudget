@@ -213,10 +213,10 @@ function buildProjectTable() {
 function addTagsForProject(tags) {
 	var row = "";
 	tags.forEach(function(tag) {
-		row += "<h6><span class='badge bg-info'>" + tag.sa_name + "&nbsp;";
-		row += "<button type='button' class='btn-close' onclick='removeTag(" + tag.id + ")'";
-		row += " aria-label='Close'>";
-		row += "</button></span></h6>&nbsp;";
+		row += "<button class='btn btn-outline-info' onclick='removeTag(";
+		row += tag.id + ")'>" + tag.sa_name;
+		row += "&nbsp;<span class='glyphicon glyphicon-remove'></span>";
+		row += "</button>&nbsp;";
 	});
 	return row;
 }

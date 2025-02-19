@@ -75,13 +75,12 @@ class PartRepository {
 		}
 	}
 	
-	function addPart($name, $description, $num) {
+	function addPart($name, $description) {
 		if (isset($name) && isset($description)) {
-			$sql = "INSERT INTO Parts (name, description, part_num, istool) VALUES(?, ?, ?, 0)";
+			$sql = "INSERT INTO Parts (name, description, istool) VALUES(?, ?, 0)";
 			$statement = $this->conn->prepare($sql);
 			$statement->bindParam(1, $name);
 			$statement->bindParam(2, $description);
-			$statement->bindParam(3, $num);
 			$statement->execute();
 		}	
 	}	

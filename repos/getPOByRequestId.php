@@ -2,7 +2,7 @@
 require "Tables/PartOrderRepository.php";
 
 $request = $_POST['request'];
-// $request = 1;
+// $request = "2";
 
 if (isset($request) && $request > 0) {
 	$db = new PartOrderRepository();

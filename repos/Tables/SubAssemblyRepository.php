@@ -27,7 +27,7 @@ class SubAssemblyRepository {
 	
 	function getTagById($id) {
 		if (isset($id) && $id > 0) {
-			$sql = "SELECT * from project_sub_assemblies WHERE id = ? AND deleted = 0";
+			$sql = "SELECT * from ProjectSubAssemblys WHERE id = ? AND deleted = 0";
 			$statement = $this->conn->prepare($sql);
 			$statement->bindParam(1, $id);
 			$statement->execute();
@@ -41,7 +41,7 @@ class SubAssemblyRepository {
 	
 	function removeTagById($id) {
 		if (isset($id) && $id > 0) {
-			$sql = "UPDATE project_sub_assemblies SET deleted = 1 WHERE id = ?";
+			$sql = "UPDATE ProjectSubAssemblys SET deleted = 1 WHERE id = ?";
 			$statement = $this->conn->prepare($sql);
 			$statement->bindParam(1, $id);
 			$statement->execute();

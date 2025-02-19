@@ -43,7 +43,7 @@ class PartOrderRepository {
 	}
 	
 	function getUnassingedPO() {
-		$sql = "SELECT po.id, v.name,  p.name as part, po.unit_cost, po.quantity, po.unit_cost * po.quantity AS total  FROM PartOrders AS po JOIN vendors AS v ON po.vendor_id = v.id  JOIN parts AS p ON po.part_id = p.id WHERE po.deleted = 0 AND po.request is null";
+		$sql = "SELECT po.id, v.name,  p.name as part, po.unit_cost, po.quantity, po.unit_cost * po.quantity AS total  FROM PartOrders AS po JOIN Vendors AS v ON po.vendor_id = v.id  JOIN Parts AS p ON po.part_id = p.id WHERE po.deleted = 0 AND po.request is null";
 		$statement = $this->conn->prepare($sql);
 		$statement->execute();
 		$output = array();
@@ -56,7 +56,7 @@ class PartOrderRepository {
 	function addPartOrder($part, $unitcost, $quantity, $vendor, $orderdate) {
 		if (isset($part) && isset($unitcost) && isset($quantity) 
 				&& isset($vendor) && isset($orderdate)) {
-			$sql = "INSERT INTO PartOrders (part_id, unit_cost, quantity, vendor_id, order_date) VALUES (?, ?, ?, ?, ?)";
+			$sql = "INSERT INTO PartOrders (part_id, unit_cost, quantity, vendor_id, order_date, request) VALUES (?, ?, ?, ?, ?, 1)";
 			$statement = $this->conn->prepare($sql);
 			$statement->bindParam(1, $part);
 			$statement->bindParam(2, $unitcost);
@@ -118,7 +118,7 @@ class PartOrderRepository {
 	
 	function getPOByRequestId($request) {
 		if (isset($request) && $request > 0) {
-			$sql = "SELECT v.name as vendor, po.unit_cost, po.quantity, po.unit_cost * po.quantity AS total, po.request, p.name, po.order_date FROM PartOrders AS po JOIN vendors AS v ON po.vendor_id = v.id JOIN  parts AS p ON po.part_id = p.id WHERE po.deleted = 0 AND po.request = ?";
+			$sql = "SELECT v.name as vendor, po.unit_cost, po.quantity, po.unit_cost * po.quantity AS total, po.request, p.name, po.order_date FROM PartOrders AS po JOIN Vendors AS v ON po.vendor_id = v.id JOIN  Parts AS p ON po.part_id = p.id WHERE po.deleted = 0 AND po.id = ?";
 			$statement = $this->conn->prepare($sql);
 			$statement->bindParam(1, $request);
 			$statement->execute();
@@ -149,7 +149,7 @@ class PartOrderRepository {
 	}
 	
 	function getAllPOsAbbreviated() {
-		$sql = "SELECT v.name, p.order_date, sum(p.unit_cost * p.quantity) AS total, p.request, p.ship_date, p.receive_date FROM PartOrders AS p JOIN Vendors AS v ON p.vendor_id = v.id  WHERE p.deleted = 0 AND p.request IS NOT NULL GROUP BY p.request ORDER BY p.order_date DESC";
+		$sql = "SELECT p.id, v.name, p.order_date, sum(p.unit_cost * p.quantity) AS total, p.request, p.ship_date, p.receive_date FROM PartOrders AS p JOIN Vendors AS v ON p.vendor_id = v.id  WHERE p.deleted = 0 AND p.request IS NOT NULL GROUP BY p.request ORDER BY p.order_date DESC";
 		$statement = $this->conn->prepare($sql);
 		$statement->execute();
 		$output = array();

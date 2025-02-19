@@ -7,11 +7,11 @@ $quantity = $_POST['quantity'];
 $vendor = $_POST['vendor'];
 $orderdate = $_POST['orderdate'];
 
-// $part = 7;
-// $vendor = 2;
-// $unitcost = 145;
-// $quantity = 4;
-// $orderdate = '2020-6-1';
+// $part = 3;
+// $vendor = 11;
+// $unitcost = 9.99;
+// $quantity = 1;
+// $orderdate = '2025-02-18';
  
 if (isset($part) && isset($unitcost) && isset($quantity) && isset($vendor) && isset($orderdate)) {
 	$db = new PartOrderRepository();

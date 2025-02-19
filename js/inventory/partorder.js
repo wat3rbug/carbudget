@@ -202,7 +202,7 @@ function getPartOrderRow(partorder) {
 	var row = "<tr><td>" + partorder.name + "</td><td>" + getWebDateFromDBString(partorder.order_date);
 	row += "</td><td>$";
 	row += partorder.total + "</td><td style='width:135px' class='text-right'>";
-	row += "<button type='button' class='btn btn-outline-info' onclick='showPO(" + partorder.request + ")' ";
+	row += "<button type='button' class='btn btn-outline-info' onclick='showPO(" + partorder.id + ")' ";
 	row += "data-toggle='tooltip' title='Get Part Order Details'><span class='glyphicon glyphicon-th-list'></span>";
 	row += "</button>&nbsp;";
 	if (partorder.receive_date == null) {
