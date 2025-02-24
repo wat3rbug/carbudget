@@ -16,7 +16,6 @@ This website was built because my wife and I had a debate about how much money w
       <li>It needs buttons for adding tools, parts, and procedures</li>
     </ul>
   </li>
-  <li>Vendors page needs to move to the back of the list</li>
   <li>Parts page needs a rework.  
     <ul><li>Its missing shipping and arrival dates and some of the buttons dont work(they used to work).</li>
     </ul>
