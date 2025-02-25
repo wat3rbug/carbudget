@@ -86,7 +86,7 @@ class PartOrderRepository {
 				$output[] = $row;
 			}
 			foreach($output as $insertrow) {
-				$sql = "SELECT p.name from PartOrders as po JOIN parts as p on p.id = po.part_id WHERE po.id = ?";
+				$sql = "SELECT p.name from PartOrders as po JOIN Parts as p on p.id = po.part_id WHERE po.id = ?";
 				$statement = $this->conn->prepare($sql);
 				$statement->bindParam(1, $insertrow['id']);
 				$statement->execute();
@@ -95,7 +95,7 @@ class PartOrderRepository {
 					$test[] = $row;
 				}
 				if ($test[0]['name'] != 'shipping' && $test[0]['name'] != 'Shipping') {
-					$sql = "INSERT INTO inventory (po_id, quantity) VALUES(?, ?)";
+					$sql = "INSERT INTO Inventorys (po_id, quantity) VALUES(?, ?)";
 					$statement = $this->conn->prepare($sql);
 					echo "id: " . $insertrow['id']. " qty: " .$insertrow['quantity'] . "\n";
 					$statement->bindParam(1, $insertrow['id']);

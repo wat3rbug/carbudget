@@ -5,6 +5,10 @@ $(document).ready(function() {
 	$('#pushTaskToDB').on("click", function() {
 		addTaskToDB();	
 	});
+
+	$('#pushProcToDB').on('click', function() {
+		addProcToDB();
+	});
 	
 	$('#pushEditTaskToDB').on("click", function() {
 		updateTask();
@@ -65,6 +69,10 @@ function clearModals() {
 	$('#addTaskIdHdn').val('');
 	$('#addTaskName').val('');
 	$('#addTaskDescription').val('');
+
+	$('#addProcTaskIdHdn').val('');
+	$('#addProcTitle').val('');
+	$('#addProcLink').val('');
 	
 	$('#editTaskIdHdn').val('');
 	$('#editTaskName').val('');
@@ -111,6 +119,26 @@ function addTaskToDB() {
 	});
 }
 
+function addProcToDB() {
+	var task = $('#addProcTaskIdHdn').val();
+	var title = $('#addProcTitle').val();
+	var link = $('#addProcLink').val();
+	$.ajax({
+		url: "repos/addProcedure.php",
+		type: "post",
+		data: {
+			"task": task,
+			"title": title,
+			"link": link
+		},
+		success: function() {
+			clearModals();
+			$('#addProcModal').modal('hide');
+			buildTaskTable();
+		}
+	})
+}
+
 function removeTask(id) {
 	$.ajax({
 		url: "repos/removeTask.php",
@@ -127,6 +155,11 @@ function removeTask(id) {
 function addTask(project) {
 	$('#addTaskIdHdn').val(project);
 	$('#addTaskModal').modal('show');
+}
+
+function addProc(task) {
+	$('#addProcTaskIdHdn').val(task);
+	$('#addProcModal').modal('show');
 }
 
 function editTask(id) {
@@ -176,7 +209,7 @@ function toggleComplete(task) {
 
 function getProjectSection(project) {
 	var row = "<div class='card'><div class='card-header'>" + project.name + "&nbsp;<button type='button' ";
-	row += "class='btn btn-outline-secondary' onclick='toggleCollapse(" + project.id + ")' ";
+	row += "class='btn btn-outline-primary' style='border: none' onclick='toggleCollapse(" + project.id + ")' ";
 	row += "id='project_" + project.id + "_button'>";
 	row += "<span class='glyphicon glyphicon-resize-small' id='project_" + project.id + "_icon'></span></button>";
 	row += " <button type='button' class='btn btn-link' onclick='getCar(" + project.id + ")'>Car</button> Starting Budget: $";
@@ -186,21 +219,67 @@ function getProjectSection(project) {
 }
 
 function addButtonsToProject(project) {
-	var row = "<li class='list-group-item'><button type='button' class='btn btn-success' onclick='addTask(";
+	var row = "<li class='list-group-item'><button type='button' style='border: none' class='btn btn-success' onclick='addTask(";
 	row += project.id + ")'><span class='glyphicon glyphicon-plus'></span>&nbsp;Add New Task</button></li>";
+	return row;
+}
+
+function getProcForTask(task) {
+	// just so you know I WILL fix this, and streamline,
+	//  but first I need to make it work. 
+	var row;
+	$.ajax({
+		url: "repos/getProcForTask.php",
+		type: "post",
+		dataType: "json",
+		data: {
+			"id": task
+		},
+		success: function(results) {
+			results.forEach(function(proc){
+				row += "<a href='" + proc.link + "' title='" + proc.title;
+				row += "' target='_blank'>" + proc.title + "</a>";
+			}); 
+			return row;
+		}
+	});
+	if (row == undefined) row = "";
 	return row;
 }
 
 function getCardRow(task, project,parts) {
 	var row = "<li class='list-group-item'><div class='row'><div class='col-md-9'><div class='form-check'>";
 	row += "<input type='checkbox' class='form-check-input' onclick='toggleComplete(" + task.id + ")'>&nbsp;"+ task.name;
-	row += "</div></div>";
+	row += "</div>";
+	row += getProcForTask(task.id) + "</div>";
 	row += "<div class='col-md-3 text-right'>";
-	row += "<button type='button' class='btn btn-outline-info' tooltip='Get Details' onclick='taskInfo(" + task.id + ")'>";
-	row += "<span class='glyphicon glyphicon-zoom-in'></span></button>&nbsp;";
-	row += "<button type='button' class='btn btn-outline-warning' tooltip='Edit Task' ";
-	row += "onclick='editTask(" + task.id + ")'><span class='glyphicon glyphicon-pencil'></span></button>&nbsp;";
-	row += "<button type='button' class='btn btn-outline-danger' tooltip='Remove Task' onclick='removeTask(" + task.id + ")'>";
-	row += "<span class='glyphicon glyphicon-remove'></span></button></div></div></li>";
+	row += getAddProcBtn(task.id);
+	row += getTaskDetailsBtn(task.id);
+	row += getEditTaskBtn(task.id);
+	row += getRemoveTaskBtn(task.id) + "</div></div></li>";
 	return row;	
+}
+
+function getAddProcBtn(task) {
+	var btn = "<button type='button' class='btn btn-outline-success' style='border: none' tooltip='Add procedure' onclick='addProc(";
+	btn += task + ")'><span class='glyphicon glyphicon-plus'></span><span class='glyphicon glyphicon-link'></span></button>";
+	return btn;
+}
+
+function getTaskDetailsBtn(task) {
+	var btn = "<button type='button' class='btn btn-outline-info' style='border: none' tooltip='Get Details' onclick='taskInfo(" + task + ")'>";
+	btn += "<span class='glyphicon glyphicon-zoom-in'></span></button>";
+	return btn;
+}
+
+function getEditTaskBtn(task) {
+ var btn = "<button type='button' class='btn btn-outline-warning' style='border: none' tooltip='Edit Task' ";
+	btn += "onclick='editTask(" + task + ")'><span class='glyphicon glyphicon-pencil'></span></button>";
+	return btn;
+}
+
+function getRemoveTaskBtn(task) {
+	var btn = "<button type='button' class='btn btn-outline-danger' style='border: none' tooltip='Remove Task' onclick='removeTask(" + task + ")'>";
+	btn += "<span class='glyphicon glyphicon-remove'></span></button>";
+	return btn;
 }

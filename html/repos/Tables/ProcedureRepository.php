@@ -24,10 +24,20 @@ class ProcedureRepository {
                 throw new \PDOException($e->getMessage(), (int)$e->getCode());
         }
 	}
+    function getAllProcedures() {
+        $sql = "SELECT * FROM Procedures WHERE deleted = 0 ORDER BY task_id";
+        $statement = $this->conn->prepare($sql);
+            $statement->execute();
+            $output = array();
+			while ($row = $statement->fetch()) {
+				$output[] = $row;
+			}
+			return $output;
+    }
 
     function getProceduresForTask($task) {
         if (isset($task)) {
-            $sql = "SELECT * FROM Procedures WHERE task_id = ? ORDER BY id";
+            $sql = "SELECT * FROM Procedures WHERE task_id = ? AND deleted = 0 ORDER BY id";
             $statement = $this->conn->prepare($sql);
             $statement->bindParam(1, $task);
             $statement->execute();
@@ -63,7 +73,7 @@ class ProcedureRepository {
 
     function removeProcedure($id) {
         if (isset($id)) {
-            $sql = "DELETE FROM Procedures WHERE id = ?";
+            $sql = "UPDATE TABLE Procedures SET deleted = 1 WHERE id = ?";
             $statement = $this->conn->prepare($sql);
             $statement->bindParam(1, $id);
             $statement->execute();

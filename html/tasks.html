@@ -74,6 +74,61 @@
 </body>
 </html>
 
+<!-- Add Procedure modal -->
+ <div class="modal fade" id="addProcModal" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header d-block alert-success">
+				<div class="row">
+					<div class="col-lg-2">&nbsp;</div>
+					<div class="col-lg-8">
+						<input type="hidden" id="addProcTaskIdHdn"/>
+						<h5 class="modal-title text-center">Add Procedure</h5>
+					</div>
+					<div class="col-lg-2">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+				</div>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-sm-3">&nbsp;</div>
+					<div class="col-sm-6">
+						<div class="input-group">
+							<div class='input-group-prepend'>
+								<span class="input-group-text">Title</span>
+							</div>
+							<input type="text" class="form-control" id="addProcTitle">
+						</div>
+					</div>
+				</div>
+				<div class="row">&nbsp;</div>
+				<div class="row">
+					<div class="col-sm-2 text-right">&nbsp;</div>
+					<div class="col-sm-8">
+						<div class="input-group">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Link</span>
+							</div>
+							<textarea class="form-control" rows="4" id="addProcLink"></textarea>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-success" id="pushProcToDB">
+					<span class="glyphicon glyphicon-cloud-upload"></span>&nbsp;Add Procedure
+				</button>&nbsp;
+				<button type="button" class="btn btn-outline-secondary" id="cancelAddProcBtn" data-dismiss="modal">
+					<span class="glyphicon glyphicon-ban-circle"></span>&nbsp;Cancel
+				</button>
+			</div>
+		</div>
+	</div>
+ </div>
+
 <!-- Add Task modal -->
 
 <div class="modal fade" id="addTaskModal" tabindex="-1" role="dialog">
