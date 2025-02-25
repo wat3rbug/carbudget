@@ -201,7 +201,7 @@ create table Tasks (
 
 create table PartOrders (
 	id int auto_increment primary key,
-	request int not null,
+	request int,
 	part_id int not null,
 	foreign key fk_part_po(part_id) references Parts(id),
 	unit_cost decimal(5,2) not null,

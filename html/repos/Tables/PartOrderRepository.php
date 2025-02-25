@@ -53,16 +53,17 @@ class PartOrderRepository {
 		return $output;
 	}
 	
-	function addPartOrder($part, $unitcost, $quantity, $vendor, $orderdate) {
+	function addPartOrder($part, $unitcost, $quantity, $vendor, $orderdate, $request) {
 		if (isset($part) && isset($unitcost) && isset($quantity) 
-				&& isset($vendor) && isset($orderdate)) {
-			$sql = "INSERT INTO PartOrders (part_id, unit_cost, quantity, vendor_id, order_date, request) VALUES (?, ?, ?, ?, ?, 1)";
+				&& isset($vendor) && isset($orderdate) && isset($request)) {
+			$sql = "INSERT INTO PartOrders (part_id, unit_cost, quantity, vendor_id, order_date, request) VALUES (?, ?, ?, ?, ?, ?)";
 			$statement = $this->conn->prepare($sql);
 			$statement->bindParam(1, $part);
 			$statement->bindParam(2, $unitcost);
 			$statement->bindParam(3, $quantity);
 			$statement->bindParam(4, $vendor);
 			$statement->bindParam(5, $orderdate);
+			$statement->bindParam(6, $request);
 			$statement->execute();
 		}
 	}
