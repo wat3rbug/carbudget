@@ -112,12 +112,22 @@ function buildStockTable() {
 function getPartRow(part) {
 	var row = "<tr><td>" + part.name + "</td><td>" + part.quantity + "</td><td>";
 	if (part.location != null) row += part.location;
-	row += "</td><td style='width:85px'><button type='button' class='btn btn-outline-warning' onclick='editStock(" + part.id + ")'>";
-	row += "<span class='glyphicon glyphicon-pencil'></span></button>";
-	row += "&nbsp;<button type='button' class='btn btn-outline-danger' onclick='removeStock(" + part.id + ")'>";
-	row += "<span class='glyphicon glyphicon-remove'></span></button>"
+	row += "</td><td style='width:85px' class='text-right'>" + getEditPartBtn(part);
+	row += "&nbsp;" + getDelPartBtn(part);
 	row += "</td></tr>";
 	return row;
+}
+
+function getEditPartBtn(part) {
+	var btn = "<button type='button' style='border: none; padding: 0px' class='btn btn-outline-warning' onclick='editStock(";
+	btn += part.id + ")'><span class='glyphicon glyphicon-pencil'></span></button>";
+	return btn;
+}
+
+function getDelPartBtn(part) {
+	var btn = "<button type='button' class='btn btn-outline-danger' style='border: none; padding: 0px' onclick='removeStock(";
+	btn += + part.id + ")'><span class='glyphicon glyphicon-remove'></span></button>";
+	return btn;
 }
 
 function removeStock(part) {

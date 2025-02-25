@@ -5,8 +5,8 @@
 	<title>Car Budgets</title>
 	<link rel="stylesheet" href="css/bootstrap.min.css">
 	<link rel="stylesheet" href="css/font-awesome-4.7.0/css/font-awesome.min.css">
-	<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
 	<link rel="stylesheet" href="css/inventory/inventory.css">
+	<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
 	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico" /> 
 	<link rel="icon" type="image/x-icon" href="favicon.ico" />
 </head>
@@ -19,8 +19,8 @@
 	<script src="js/login.js"></script>
 	<script src="js/nav.js"></script>
 	<script src="js/dateFunctions.js"></script>
-	<script src="js/tools/tools.js"></script>
-	<!-- <script src="js/tools/partorder.js"></script> -->
+	<script src="js/inventory/inventory.js"></script>
+	<script src="js/inventory/partorder.js"></script>
 	<div class="col-sm-12">
 		<div class="jumbotron danger">
 			<h1 text="center">Car Budgets</h1>Just how much do I spend getting dirty
@@ -41,10 +41,10 @@
 							<a class="nav-link" id="task-tab" data-toggle="tab" role="tab" aria-controls="task" href="tasks.html"><span class="glyphicon glyphicon-tasks"></span>&nbsp;Tasks</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" id="task-tab" data-toggle="tab" role="tab" aria-controls="parts" href="parts.html"><span class="glyphicon glyphicon-tower"></span>&nbsp;Parts</a>
+							<a class="nav-link active" id="task-tab" data-toggle="tab" role="tab" aria-controls="parts" href="parts.html"><span class="glyphicon glyphicon-tower"></span>&nbsp;Parts</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link active" id="task-tab" data-toggle="tab" role="tab" aria-controls="tools" href="tools.html"><span class="glyphicon glyphicon-wrench"></span>&nbsp;Tools</a>
+							<a class="nav-link" id="task-tab" data-toggle="tab" role="tab" aria-controls="tools" href="tools.html"><span class="glyphicon glyphicon-wrench"></span>&nbsp;Tools</a>
 						</li>
 						<li class="nav-item">
 							<a class="nav-link" id="task-tab" data-toggle="tab" role="tab" aria-controls="vendors" href="vendors.html"><span class="glyphicon glyphicon-globe"></span>&nbsp;Vendors</a>
@@ -65,44 +65,47 @@
 				<div class="row">
 					<div class="col-lg-6">
 						<button type="button" class="btn btn-success" id="addPOBtn">
-							<span class="glyphicon glyphicon-plus"></span>&nbsp;Add Tool Order
+							<span class="glyphicon glyphicon-plus"></span>&nbsp;Add Part Order
 						</button>
 					</div>		
 				</div>
 				<div class="row">&nbsp;</div>
 				<div class="row">
-					<div class="col-sm-6">
+					<div class="col-sm-7">
 						<div class="card">
 							<div class="card-title text-center text-muted">Part Orders</div>
 							<div class="card-body inventory-scroll">
 								<table class="table table-striped" id="poTable">
 									<thead class="thead-dark">
 										<th scope="col">Vendor</th>
-										<th scope="col">Purchase Date</th>
-										<th scope="col">Total</th>
-										<th scope="col">Action</th>
+										<th scope="col">Purchase</th>
+										<th scope="col">Shipped</th>
+										<th scope="col">Transit</th>
+										<th scope="col">Received</th>
+										<th scope="col">Cost</th>
+										<th scope="col" class="text-right">Action</th>
 									</th>
 									<tbody>
-										<tr><td colspan="4" class="text-center">No Orders</td></tr>
+										<tr><td colspan="7" class="text-center">No Orders</td></tr>
 									</tbody>
 								</table>
 							</div>
 						</div>
 					</div>
-					<div class="col-sm-5">
+					<div class="col-sm-4">
 						<div class="card">
-							<div class="card-title text-center text-muted">Tool Inventory</div>
+							<div class="card-title text-center text-muted">Parts Inventory</div>
 							<div class="card-body inventory-scroll">
 								<table class="table table-striped" id="inventoryTable">
 									<thead class="thead-dark">
 										<th scope="col">Part</th>
-										<th scope="col">Qty</th>
+										<th scope="col">Quantity</th>
 										<th scope="col">Location</th>
-										<th scope="col">Action</th>
+										<th scope="col" class="text-right">Action</th>
 									</thead>
 									<tbody>
 										<tr>
-											<td colspan="4" class="text-center">No Tools in Stock</td>
+											<td colspan="4" class="text-center">No Parts in Stock</td>
 										</tr>
 									</tbody>
 								</table>
@@ -127,7 +130,7 @@
 				<div class="row">
 					<div class="col-lg-2">&nbsp;</div>
 					<div class="col-lg-8">
-						<h5 class="modal-title text-center">Add Tool Order</h5>
+						<h5 class="modal-title text-center">Part Order - Details</h5>
 					</div>
 					<div class="col-lg-2">
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -137,52 +140,22 @@
 				</div>
 			</div>
 			<div class="modal-body">
-				<div class="row">
-					<div class="col-sm-4">&nbsp;</div>
-					<div class="col-sm-5">
-						<div class="input-group">
-							<div class="input-group-prepend">
-								<span class="input-group-text" id="vendorAdd">Vendor</span>
-							</div>
-							<select class="form-control" aria-describedby="vendorAdd" id="addVendor"></select>
-						</div>
-					</div>
-				</div>
-				<div class="row">&nbsp;</div>
-				<div class="row">
-
-					<div class="col-sm-4 text-right">&nbsp;</div>
-					<div class="col-sm-5">
-						<div class="input-group">
-							<div class="input-group date" id="addPartDate" data-provider="datepicker">
-								<div class="input-group-prepend">
-									<span class="input-group-text">Order Date</span>
-								</div>
-								<input type="text" class="form-control">
-								<div class="input-group-append">
-									<span class="input-group-addon">
-										<span class="glyphicon glyphicon-calendar"></span>
-									</span>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
+				
 				<div class="row">&nbsp;</div>
 				<div class="row">
 					<div class="col-sm-2">&nbsp;</div>
 					<div class="col-sm-8">
 						<div class="card">
-							<div class="card-header"><h5 class="text-center">Individual Tool Section</h5></div>
+							<div class="card-header"><h5 class="text-center">Individual Part Section</h5></div>
 							<div class="card-body">
 								<div class="row">
 									<div class="col-sm-1">&nbsp;</div>
 									<div class="col-sm-10">
 										<div class="input-group">
 											<div class="input-group-prepend">
-												<span class="input-group-text" id="toolAdd">Tool</span>
+												<span class="input-group-text" id="partAdd">Part</span>
 											</div>
-											<select class="form-control" id="addTool" aria-describedby="toolAdd" id="addTool"></select>
+											<select class="form-control" id="addPart" aria-describedby="partAdd" id="addPart"></select>
 										</div>
 									</div>
 								</div>
@@ -204,9 +177,9 @@
 									<div class="col-sm-6">
 										<div class="input-group">
 											<div class="input-group-prepend">
-												<span class="input-group-text" id="quantityLabel">Quantity</span>
+												<span class="input-group-text" id="quantityAdd">Quantity</span>
 											</div>
-											<input type="number" class="form-control" id="addQuantity" aria-describedby="quantityLabel" placeholder="1">	
+											<input type="number" class="form-control" id="addQuantity" aria-describedby="quantityAdd" placeholder="1">	
 										</div>			
 									</div>
 								</div>
@@ -219,14 +192,14 @@
 					<div class="col-sm-12">
 						<table class="table table-striped" id="orderTable">
 							<thead>
-								<th scope="col">Tool</th>
+								<th scope="col">Part</th>
 								<th scope="col">Unit Cost</th>
 								<th scope="col">Quantity</th>
 								<th scope="col">Sub Total</th>
 								<th scope="col">Action</th>
 							</thead>
 							<tbody>
-								<tr><td colspan="5" class="text-center">No Tools</td></tr>
+								<tr><td colspan="5" class="text-center">No parts</td></tr>
 							</tbody>
 						</table>
 					</div>
@@ -235,13 +208,14 @@
 
 			<div class="modal-footer">
 				<button type="button" class="btn btn-primary" id="addPartBtn">
-					<span class="glyphicon glyphicon-plus"></span>&nbsp;Add Tool
+					<span class="glyphicon glyphicon-plus"></span>&nbsp;Add Part
 				</button>&nbsp;
 				<button type="button" class="btn btn-success" id="completePOBtn">
-					<span class="glyphicon glyphicon-cloud-upload"></span>&nbsp;Complete Tool Order
+					<span class="glyphicon glyphicon-cloud-upload"></span>&nbsp;Complete Part Order
 				</button>&nbsp;
 				<button type="button" class="btn btn-outline-success" id="addToPartOrderBtn">
-					<span class="glyphicon glyphicon-th-list"></span>&nbsp;Add Item To Tool Order
+					<span class="glyphicon glyphicon-plus"></span>
+					<span class="glyphicon glyphicon-th-list"></span>&nbsp;Add Item To Part Order
 				</button>&nbsp;
 				<button type="button" class="btn btn-outline-secondary" id="cancelAddPartOrderBtn" data-dismiss="modal">
 					<span class="glyphicon glyphicon-ban-circle"></span>&nbsp;Cancel
@@ -272,7 +246,7 @@
 			<div class="modal-body">
 				
 				<div class="row">
-					<div class="col-sm-6 text-right"><b>Tool</b></div>
+					<div class="col-sm-6 text-right"><b>Part</b></div>
 					<div class="col-sm-6" id="editPart">	
 					</div>
 				</div>
@@ -303,9 +277,9 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-warning" id="pushInventoryToDB">
-					<span class="glyphicon glyphicon-cloud-upload"></span>&nbsp;Update Tool
+					<span class="glyphicon glyphicon-cloud-upload"></span>&nbsp;Update Part
 				</button>&nbsp;
-				<button type="button" class="btn btn-outline-secondary" id="canceleditToolBtn" data-dismiss="modal">
+				<button type="button" class="btn btn-outline-secondary" id="canceleditPartBtn" data-dismiss="modal">
 					<span class="glyphicon glyphicon-ban-circle"></span>&nbsp;Cancel
 				</button>
 			</div>
@@ -332,18 +306,6 @@
 				</div>
 			</div>
 			<div class="modal-body">		
-				<div class="row">
-					<div class="col-sm-6 text-right"><b>Vendor</b></div>
-					<div class="col-sm-6" id="infoVendor">
-					</div>
-				</div>
-				<div class="row">&nbsp;</div>
-				<div class="row">
-					<div class="col-sm-6 text-right"><b>Order Date</b></div>
-					<div class="col-sm-6" id="infoOrderDate">
-					</div>
-				</div>
-				<div class="row">&nbsp;</div>
 				<div class="row">
 					<div class="col-sm-12">
 						<table class="table table-striped" id="poInfoTable">
@@ -378,7 +340,7 @@
 				<div class="row">
 					<div class="col-lg-2">&nbsp;</div>
 					<div class="col-lg-8">
-						<h5 class="modal-title text-center">Add Tool</h5>
+						<h5 class="modal-title text-center">Add Part</h5>
 					</div>
 					<div class="col-lg-2">
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -396,7 +358,7 @@
 							<div class="input-group-prepend">
 								<span class="input-group-text" id="nameAdd">Name</span>
 							</div>
-							<input type="text" class="form-control" aria-describedby="toolAdd" id="addPartName">
+							<input type="text" class="form-control" aria-describedby="nameAdd" id="addPartName">
 						</div>
 					</div>
 					<div class="col-sm-2">&nbsp;</div>
@@ -411,7 +373,7 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-primary" id="addPartToDBBtn">
-					<span class="glyphicon glyphicon-cloud-upload"></span>&nbsp;Add Tool
+					<span class="glyphicon glyphicon-cloud-upload"></span>&nbsp;Add Part
 				</button>&nbsp;		
 				<button type="button" class="btn btn-outline-secondary" id="noPartsBtn" data-dismiss="modal">					
 					<span class="glyphicon glyphicon-ban-circle"></span>&nbsp;Cancel				
@@ -497,6 +459,70 @@
 			<div class="modal-footer">		
 				<button type="button" class="btn btn-danger" id="noVendorsBtn" data-dismiss="modal">					
 					<span class="glyphicon glyphicon-remove"></span>&nbsp;Close				
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Part Order Vendor and Date Modal Section -->
+
+<div class="modal fade" id="noPOStartModal" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header d-block alert-success">
+				<div class="row">
+					<div class="col-lg-2">&nbsp;</div>
+					<div class="col-lg-8">
+						<h5 class="modal-title text-center">Part Order - Origin</h5>
+					</div>
+					<div class="col-lg-2">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+				</div>
+			</div>
+
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-sm-3 text-right">&nbsp;</div>
+					<div class="col-sm-6" id="infoVendor">
+						<div class="input-group">
+							<div class="input-group-prepend">
+								<span class="input-group-text" id="vendorSelect">Vendor</span>
+							</div>
+							<select class="form-control" id="selectVendor" aria-describedby="vendorSelect"></select>
+						</div>
+					</div>
+				</div>
+				<div class="row">&nbsp;</div>
+				<div class="row">
+					<div class="col-sm-3 text-right">&nbsp;</div>
+					<div class="col-sm-6" id="infoOrderDate">
+						<div class="input-group">
+							<div class="input-group date" id="addPartDate" data-provider="datepicker">
+								<div class="input-group-prepend">
+									<span class="input-group-text">Order Date</span>
+								</div>
+								<input type="text" class="form-control">
+								<div class="input-group-append">
+									<span class="input-group-addon">
+										<span class="glyphicon glyphicon-calendar"></span>
+									</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">&nbsp;</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-success" id="startPOBtn">
+					<span class="glyphicon glyphicon-forward"></span>&nbsp;Continue
+				</button>		
+				<button type="button" class="btn btn-outline-secondary" data-dismiss="modal">					
+					<span class="glyphicon glyphicon-ban-circle"></span>&nbsp;Close				
 				</button>
 			</div>
 		</div>

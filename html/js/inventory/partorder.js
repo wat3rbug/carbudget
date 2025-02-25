@@ -151,7 +151,7 @@ function buildPOTable() {
 					$('#poTable').append(getPartOrderRow(partorder));	
 				});
 			} else {
-				$('#poTable').append("<tr><td colspan='5' class='text-center'>No Parts</td></tr>");
+				$('#poTable').append("<tr><td colspan='7' class='text-center'>No Parts</td></tr>");
 			}
 		}
 	});
@@ -192,7 +192,7 @@ function clearPOModals() {
 function getPartModalRow(partorder) {
 	var row = "<tr><td>" + partorder.part + "</td><td class='text-right'>$" + partorder.unit_cost + "</td><td>";
 	row += partorder.quantity + "</td><td class='text-right'>$" + partorder.total + "</td><td class='text-right'>";
-	row += "<button type='button' class='btn btn-outline-danger' onclick='removePOLineItem(" + partorder.id +")'";
+	row += "<button type='button' class='btn btn-outline-danger' style='border: none' onclick='removePOLineItem(" + partorder.id +")'";
 	row += " data-toggle='tooltip' title='Remove Part From Order'><span class='glyphicon glyphicon-remove'>";
 	row += "</span></button></td></tr>";
 	return row;
@@ -200,26 +200,62 @@ function getPartModalRow(partorder) {
 
 function getPartOrderRow(partorder) {
 	var row = "<tr><td>" + partorder.name + "</td><td>" + getWebDateFromDBString(partorder.order_date);
-	row += "</td><td>$";
-	row += partorder.total + "</td><td style='width:135px' class='text-right'>";
-	row += "<button type='button' class='btn btn-outline-info' onclick='showPO(" + partorder.id + ")' ";
-	row += "data-toggle='tooltip' title='Get Part Order Details'><span class='glyphicon glyphicon-th-list'></span>";
-	row += "</button>&nbsp;";
+	row += "</td><td>" + getWebDateFromDBString(partorder.ship_date) + "</td>";
+	row += "<td>" + getTransit(partorder.ship_date, partorder.receive_date).toString() + "</td>";
+	row += "<td>" + getWebDateFromDBString(partorder.receive_date) + "</td>";
+	row += "<td>$" + partorder.total + "</td>";
+	row += "<td style='width:135px' class='text-right'>";
+	row += getPOInfoBtn(partorder) + "&nbsp;";
 	if (partorder.receive_date == null) {
-		row += "<button type='button' class='btn btn-outline-success' onclick='poShipped(" + partorder.request + ")'";
-		row += " data-toggle='tooltip' title='Part Order Shipped' ";
-		if (partorder.ship_date != null) {
-			row += "disabled";
-		}
-		row +="><span class='glyphicon glyphicon-plane'></span></button>&nbsp;";
-		row += "<button type='button' class='btn btn-outline-success data-toggle='tooltip' title='Receive Part Order'";
-		row += " onclick='receivePO(" + partorder.request + ")'><span class='fa fa-inbox'></span>";
-		row += "</button>&nbsp;";
-		row += "<button type='button' class='btn btn-outline-danger' onclick='removeCompletePO(" + partorder.request + ")'";
-		row += " data-toggle='tooltip' title='Remove Part Order'>";
-		row += "<span class='glyphicon glyphicon-remove'></span></button></td></tr>";
+		row += getPoShippedBtn(partorder) + "&nbsp;";
+		row += getRcvPOBtn(partorder) + "&nbsp;";
+		row += getDelPOBtn(partorder) + "</td></tr>";
 	}
 	return row;
+}
+
+function getTransit(shipped, received) {
+	if (shipped == null) return "not shipped yet";
+	if (received == null) received = new Date();
+	else received = received.replace(/-/g, '/');
+	shipped = shipped.replace(/-/g, '/');
+	shipDate = new Date(shipped);
+	rcvDate = new Date(received);
+	let diff = Math.abs(rcvDate - shipDate) / (1000 * 60 * 60 * 24);
+	let days = Math.floor(diff);
+	return days; 
+}
+
+function getPOInfoBtn(partorder) {
+	var btn = "<button type='button' class='btn btn-outline-info' style='border: none' onclick='showPO(" + partorder.id + ")' ";
+	btn += "data-toggle='tooltip' title='Get Part Order Details'><span class='glyphicon glyphicon-th-list'></span>";
+	btn += "</button>";
+	return btn;
+}
+
+function getPoShippedBtn(partorder) {
+	var btn = "<button type='button' class='btn btn-outline-success' style='border: none' onclick='poShipped(" + partorder.request + ")'";
+	btn += " data-toggle='tooltip' title='Part Order Shipped' ";
+	if (partorder.ship_date != null) {
+		btn += "disabled";
+	}
+	btn +="><span class='glyphicon glyphicon-plane'></span></button>";
+	return btn;
+}
+
+function getRcvPOBtn(partorder) {
+	var btn = "<button type='button' class='btn btn-outline-success' style='border: none' data-toggle='tooltip'";
+	btn += " title='Receive Part Order'";
+	btn += " onclick='receivePO(" + partorder.request + ")'><span class='glyphicon glyphicon-inbox'></span>";
+	btn += "</button>";
+	return btn;
+}
+function getDelPOBtn(partorder) {
+	var btn = "<button type='button' class='btn btn-outline-danger' style='border:none' onclick='removeCompletePO(";
+	btn += partorder.request + ")'";
+	btn += " data-toggle='tooltip' title='Remove Part Order'>";
+	btn += "<span class='glyphicon glyphicon-remove'></span></button>";
+	return btn;
 }
 
 function addPart() {

@@ -32,6 +32,7 @@ function getDateFromDBString(currentDate) {
 	return result;
 }
 function getWebDateFromDBString(currentDate) {
+	if (currentDate == null) return "N/A";
 	var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 	var sections = currentDate.split("-");
 	var year = parseInt(sections[0]);
