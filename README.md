@@ -6,7 +6,7 @@ This website was built because my wife and I had a debate about how much money w
 
 <b>NOTE:  This is not meant to be built for the wild as there is essentially no authentication.</b> I wasn't trying to show how trendy I can be while trying to keep up with the latest authentication trend, merely that I can design for multiple users.
 
-<h2>Current Goals - <i>last updated 23 Feb 2025</i></h2> 
+<h2>Current Goals - <i>last updated 25 Feb 2025</i></h2> 
 <ul>
   <li>Make a cars page, with optional photo<ul><li>Need the photo section working. It worked a few years ago, but needs s rework.</li></ul></li>
   <li>Need a projects page, so that projects can be added or modified as well as their predicted budgets</li>
@@ -14,10 +14,6 @@ This website was built because my wife and I had a debate about how much money w
     <ul>
       <li>It needs the car link to show a photo of the car.</li>
       <li>It needs buttons for adding tools, parts, and procedures</li>
-    </ul>
-  </li>
-  <li>Parts page needs a rework.  
-    <ul><li>Its missing shipping and arrival dates and some of the buttons dont work(they used to work).</li>
     </ul>
   </li>
   <li>Tools Page needs a rework as well, for the same reasons as the parts page.</li>
