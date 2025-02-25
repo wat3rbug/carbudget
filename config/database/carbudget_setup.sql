@@ -238,7 +238,8 @@ create table Procedures (
     link varchar(300) not null,
     title varchar(40) not null,
     task_id int not null,
-    foreign key fk_task_procedure(task_id) references Tasks(id)
+    foreign key fk_task_procedure(task_id) references Tasks(id),
+	deleted tinyint(1) not null default 0
 ) engine = InnoDB;
 
 create or replace view ViewPartsInStocks as
