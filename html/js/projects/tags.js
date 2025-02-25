@@ -10,6 +10,7 @@ $(document).ready(function() {
 			},
 			success: function() {
 				$('#addTagModal').modal('hide');
+				$('#AddTag').val('');
 				buildProjectTable();
 			}
 		})

@@ -233,7 +233,13 @@ create table PartsForTasks (
 	deleted tinyint(1) not null default 0
 ) engine = InnoDB;
 
-	
+create table Procedures (
+	id int auto_increment primary key,
+    link varchar(300) not null,
+    title varchar(40) not null,
+    task_id int not null,
+    foreign key fk_task_procedure(task_id) references Tasks(id)
+) engine = InnoDB;
 
 create or replace view ViewPartsInStocks as
 	select i.id, p.name, i.quantity, i.location, i.deleted 
