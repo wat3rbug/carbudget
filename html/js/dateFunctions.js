@@ -7,6 +7,7 @@ function getWebDateFromDB(currentDate) {
 	return day + " " + month + " " + year;
 }
 function getDBDateFromJSDate(currentDate) {
+	if (currentDate == null) return "N/A";
 	var year = currentDate.getFullYear();
 	var month = currentDate.getMonth() + 1;
 	var day = currentDate.getDate();

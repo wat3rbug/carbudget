@@ -53,17 +53,16 @@ class PartOrderRepository {
 		return $output;
 	}
 	
-	function addPartOrder($part, $unitcost, $quantity, $vendor, $orderdate, $request) {
+	function addPartOrder($part, $unitcost, $quantity, $vendor, $orderdate) {
 		if (isset($part) && isset($unitcost) && isset($quantity) 
-				&& isset($vendor) && isset($orderdate) && isset($request)) {
-			$sql = "INSERT INTO PartOrders (part_id, unit_cost, quantity, vendor_id, order_date, request) VALUES (?, ?, ?, ?, ?, ?)";
+				&& isset($vendor) && isset($orderdate)) {
+			$sql = "INSERT INTO PartOrders (part_id, unit_cost, quantity, vendor_id, order_date) VALUES (?, ?, ?, ?, ?)";
 			$statement = $this->conn->prepare($sql);
 			$statement->bindParam(1, $part);
 			$statement->bindParam(2, $unitcost);
 			$statement->bindParam(3, $quantity);
 			$statement->bindParam(4, $vendor);
 			$statement->bindParam(5, $orderdate);
-			$statement->bindParam(6, $request);
 			$statement->execute();
 		}
 	}
@@ -149,9 +148,10 @@ class PartOrderRepository {
 		}
 	}
 	
-	function getAllPOsAbbreviated() {
-		$sql = "SELECT p.id, v.name, p.order_date, sum(p.unit_cost * p.quantity) AS total, p.request, p.ship_date, p.receive_date FROM PartOrders AS p JOIN Vendors AS v ON p.vendor_id = v.id  WHERE p.deleted = 0 AND p.request IS NOT NULL GROUP BY p.request ORDER BY p.order_date DESC";
+	function getAllPOsAbbreviated($istool) {
+		$sql = "SELECT p.id, v.name, p.order_date, sum(p.unit_cost * p.quantity) AS total, p.request, p.ship_date, p.receive_date FROM PartOrders AS p JOIN Vendors AS v ON p.vendor_id = v.id  JOIN Parts ON p.part_id = Parts.id WHERE p.deleted = 0 AND Parts.istool = ? GROUP BY p.request ORDER BY p.order_date DESC";
 		$statement = $this->conn->prepare($sql);
+		$statement->bindParam(1, $istool);
 		$statement->execute();
 		$output = array();
 		while ($row = $statement->fetch()) {

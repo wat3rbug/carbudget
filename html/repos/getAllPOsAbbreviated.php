@@ -1,8 +1,12 @@
 <?php
 require "Tables/PartOrderRepository.php";
+// $istool = $_POST["istool"];
+$istool = "1";
 
-$db = new PartOrderRepository();
-$data = $db->getAllPOsAbbreviated();
-header('Content-type: application/json');
-echo json_encode($data);
+if (isset($istool)) {
+    $db = new PartOrderRepository();
+    $data = $db->getAllPOsAbbreviated($istool);
+    header('Content-type: application/json');
+    echo json_encode($data);
+} 
 ?>

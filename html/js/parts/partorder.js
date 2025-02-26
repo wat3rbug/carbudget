@@ -144,6 +144,9 @@ function buildPOTable() {
 		url: "repos/getAllPOsAbbreviated.php",
 		type: "post",
 		dataType: "json",
+		data: {
+			"istool" : "0"
+		},
 		success: function(partorders) {
 			$('#poTable').find('tbody tr').remove();
 			if (partorders != null && partorders.length > 0) {
@@ -274,11 +277,6 @@ function addPart() {
 		}
 	});
 }
-
-// function addPartOrder(id) {
-// 	buildVendorList(id);
-// 	$('#addPOTaskIdHdn').val(id);
-// }
 
 function buildVendorList() {
 	$.ajax({
