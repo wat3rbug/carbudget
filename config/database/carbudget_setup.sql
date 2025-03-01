@@ -201,7 +201,7 @@ create table Tasks (
 
 create table PartOrders (
 	id int auto_increment primary key,
-	request int,
+
 	part_id int not null,
 	foreign key fk_part_po(part_id) references Parts(id),
 	unit_cost decimal(5,2) not null,
@@ -211,7 +211,8 @@ create table PartOrders (
 	order_date date not null,
 	ship_date date,
 	receive_date date,
-	deleted tinyint(1) not null default 0 
+	deleted tinyint(1) not null default 0,
+	processed tinyint(1) not null default 1;
 ) engine = InnoDB;
 
 
@@ -241,6 +242,19 @@ create table Procedures (
     foreign key fk_task_procedure(task_id) references Tasks(id),
 	deleted tinyint(1) not null default 0
 ) engine = InnoDB;
+
+create table POLineItem ( 
+	id int auto_increment primary key, 
+	part int not null, quantity int not null default 1, 
+	foreign key fk_part_lineitem(part) references Parts(id),
+	cost decimal(5, 2) not null, 
+	vendor int not null,
+	foreign key fk_tool_vendor(vendor) references Vendors(id),
+	po int not null,
+	foreign key fk_polineitem_po(po) references PartOrders(id),
+	deleted tinyint(1) not null default 0
+) engine = InnoDB;
+
 
 create or replace view ViewPartsInStocks as
 	select i.id, p.name, i.quantity, i.location, i.deleted 
